@@ -14,10 +14,15 @@ def packet_callback(packet):
     pass
 
 def packet_filter(packet):
-    pass
+    
+    if packet.haslayer(TCP) and packet.haslayer(Raw):
+        tcp_layer = packet[TCP]
+        raw_data = packet[Raw].load
 
-def main():
-    pass
+        # Check if its the required HTTP request
+        if tcp_layer.dport == TARGET_PORT and b"User-Agent" in raw_data:
+            TARGET_USER_AGENT in raw_data
 
 if __name__ == "__main__":
-    pass
+    
+    sniff(lfilter=packet_filter, prn=packet_callback, iface=INTERFACE)
