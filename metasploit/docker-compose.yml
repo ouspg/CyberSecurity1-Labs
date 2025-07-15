@@ -1,6 +1,8 @@
 version: '2'
 services:
  sshd:
-   image: vulhub/libssh:0.8.1
+   image: vuln-libssh
+   build:
+    context: .
    ports:
     - "2222:22"
