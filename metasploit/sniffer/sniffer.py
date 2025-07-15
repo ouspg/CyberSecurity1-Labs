@@ -11,7 +11,9 @@ INTERFACE = "eth0"
 FLAG = "FLAG{meterpreter_http_detected}"
 
 def packet_callback(packet):
-    pass
+    print("\n[+] Meterpreter reverse_http detected!")
+    print("[+] Revealing Flag:", FLAG)
+    exit(0)
 
 def packet_filter(packet):
     
@@ -21,8 +23,10 @@ def packet_filter(packet):
 
         # Check if its the required HTTP request
         if tcp_layer.dport == TARGET_PORT and b"User-Agent" in raw_data:
-            TARGET_USER_AGENT in raw_data
+            return TARGET_USER_AGENT in raw_data
 
 if __name__ == "__main__":
+    
+    print(f"[i] Sniffing HTTP traffic on interface '{INTERFACE}' for Meterpreter reverse_http payload...")
     
     sniff(lfilter=packet_filter, prn=packet_callback, iface=INTERFACE)
