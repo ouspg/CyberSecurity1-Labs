@@ -50,6 +50,8 @@ def packet_filter(packet: "scapy.packet.Packet") -> bool:
         # Check if its the required HTTP request
         if b"User-Agent" in raw_data:
             match = re.search(USER_AGENT_REGEX, raw_data)
+
+            # TODO: Check if the script is running if there is no match
             return match is not None
 
 
