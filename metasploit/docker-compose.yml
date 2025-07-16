@@ -1,0 +1,8 @@
+version: '2'
+services:
+ sshd:
+   image: vuln-libssh
+   build:
+    context: .
+   ports:
+    - "2222:22"
