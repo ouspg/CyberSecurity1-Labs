@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/var/opt/dist/cli/cli &
+/var/opt/mon/cli/cli &
 
 /usr/src/build/examples/ssh_server_fork \
     --hostkey=/etc/ssh/ssh_host_rsa_key \
