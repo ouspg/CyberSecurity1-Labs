@@ -1,0 +1,7 @@
+version: '3'
+services:
+  linux:
+    build: .
+    container_name: linux_container
+    ports:
+      - "2222:22"
