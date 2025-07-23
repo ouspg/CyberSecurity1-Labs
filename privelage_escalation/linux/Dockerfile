@@ -28,7 +28,11 @@ COPY sudoers /etc/sudoers
 RUN mkdir /var/run/sshd
 
 # Setup flags
+RUN echo "Flag2" > /home/user3/flag2.txt && \
+    chown user3:user3 /home/user3/flag2.txt && \
+    chmod 640 /home/user3/flag2.txt
 RUN echo "Flag3" > /root/flag3.txt
+
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 744 /usr/local/bin/entrypoint.sh
