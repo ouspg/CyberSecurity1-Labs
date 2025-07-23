@@ -1,4 +1,4 @@
 #!/bin/bash
 
 service cron start
-service ssh start
+/usr/sbin/sshd -D 
