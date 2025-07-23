@@ -5,9 +5,12 @@ RUN apt-get update && apt-get install -y \
     vim \
     openssh-server \
     sudo \
-    cron
+    cron 
 
 # Create users
+RUN useradd -m -s /bin/bash user1 && \
+    echo "user1:password" | chpasswd
+
 RUN useradd -m -s /bin/bash user2 && \
     echo "user2:password" | chpasswd
 
@@ -23,9 +26,11 @@ RUN  chown user3:user3 /home/user2/script.sh && \
     echo "* * * * * user3 /home/user2/script.sh" >> /etc/crontab
 # Configure users
 COPY sudoers /etc/sudoers
+RUN chmod 440 /etc/sudoers
 
 # Configure the programs
 RUN mkdir /var/run/sshd
+RUN chmod u+s /usr/bin/base64
 
 # Setup flags
 RUN echo "Flag2" > /home/user3/flag2.txt && \
