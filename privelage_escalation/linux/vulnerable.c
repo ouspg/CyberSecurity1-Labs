@@ -1,6 +1,7 @@
-#include <stdlib.h>
+#include <unistd.h>
 
-int main() {
-    system("date");  // vulnerable use of system()
-    return 0;
+void main() {
+    setuid(1002);
+    setgid(1002);
+    system("thm");  // vulnerable use of system()
 }
