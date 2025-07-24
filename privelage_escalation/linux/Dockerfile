@@ -20,21 +20,28 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Configure the programs
 RUN mkdir /var/run/sshd
 
-# Create users
+# Create users and groups
+RUN groupadd -g 1004 usergroup1 && \
+    groupadd -g 1005 usergroup2
+
 RUN useradd -m -s /bin/bash user1 && \
     echo "user1:password" | chpasswd && \
     chmod 771 /home/user1
 
 RUN useradd -m -s /bin/bash user2 && \
     echo "user2:password" | chpasswd && \
+    usermod -aG usergroup1 user2 && \
     chmod 771 /home/user2
 
 RUN useradd -m -s /bin/bash user3 && \
     echo "user3:password" | chpasswd && \
+    usermod -aG usergroup1 user3 && \
+    usermod -aG usergroup2 user3 && \
     chmod 771 /home/user3
 
 RUN useradd -m -s /bin/bash user4 && \
     echo "user4:password" | chpasswd && \
+    usermod -aG usergroup2 user4 && \
     chmod 771 /home/user4
 
 # Configuring Level 1 - SUID
@@ -49,8 +56,8 @@ RUN ln -s /home/user3/vuln_bin /home/user2/vuln_bin
 # Configuring Level 3 - Cron Job
 # TODO: cron script should only be writable by owner and group.
 COPY ./scripts/cron.sh /home/user3/backup.sh
-RUN  chown user4:user4 /home/user3/backup.sh && \
-    chmod 766 /home/user3/backup.sh
+RUN  chown user4:usergroup2 /home/user3/backup.sh && \
+    chmod 760 /home/user3/backup.sh
 COPY ./configs/crontab /etc/crontab
 
 # Configuring Level 4 - SUDO
