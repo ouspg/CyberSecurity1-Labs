@@ -45,13 +45,11 @@ RUN chown root:root /home/user3/vuln_bin && \
 RUN ln -s /home/user3/vuln_bin /home/user2/vuln_bin
 
 # Configuring Level 3 - Cron Job
-COPY ./scripts/script.sh /home/user3/script.sh
-RUN touch /home/user3/cron.log && \
-    chown user4:user4 /home/user3/cron.log && \
-    chmod 644 /home/user3/cron.log
-RUN  chown user4:user4 /home/user3/script.sh && \
-    chmod 766 /home/user3/script.sh && \
-    echo "* * * * * user4 /home/user3/script.sh" >> /etc/crontab
+# TODO: cron script should only be writable by owner and group.
+COPY ./scripts/cron.sh /home/user3/backup.sh
+RUN  chown user4:user4 /home/user3/backup.sh && \
+    chmod 766 /home/user3/backup.sh
+COPY ./configs/crontab /etc/crontab
 
 # Configuring Level 4 - SUDO
 COPY ./configs/sudoers /etc/sudoers
@@ -71,7 +69,7 @@ RUN echo "Flag4" > /root/flag4.txt
 
 # Copying entrypoint script
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod 744 /usr/local/bin/entrypoint.sh
+RUN chmod 770 /usr/local/bin/entrypoint.sh
 
 
 CMD ["/usr/local/bin/entrypoint.sh"]
