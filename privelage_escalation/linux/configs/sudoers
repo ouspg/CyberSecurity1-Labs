@@ -30,3 +30,5 @@ root    ALL=(ALL:ALL) ALL
 #includedir /etc/sudoers.d
 user4 ALL=(ALL) NOPASSWD:/usr/bin/find
 user4 ALL=(ALL) NOPASSWD:/usr/bin/less
+user4 ALL=(ALL) NOPASSWD:/usr/bin/vim
+user4 ALL=(ALL) NOPASSWD:/usr/bin/nano

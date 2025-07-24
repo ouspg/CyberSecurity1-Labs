@@ -8,6 +8,7 @@ FROM ubuntu:focal
 # install programs
 RUN apt-get update && apt-get install -y \
     vim \
+    nano \
     openssh-server \
     sudo \
     cron \
