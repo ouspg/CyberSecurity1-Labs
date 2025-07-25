@@ -25,40 +25,40 @@ RUN mkdir /var/run/sshd
 RUN groupadd -g 1004 usergroup1 && \
     groupadd -g 1005 usergroup2
 
-RUN useradd -m -s /bin/bash developer && \
-    echo "developer:password" | chpasswd && \
-    chmod 771 /home/developer
+RUN useradd -m -s /bin/bash dev_aarni && \
+    echo "dev_aarni:password" | chpasswd && \
+    chmod 771 /home/dev_aarni
 
-RUN useradd -m -s /bin/bash devops && \
-    echo "devops:password" | chpasswd && \
-    usermod -aG usergroup1 devops && \
-    chmod 771 /home/devops
+RUN useradd -m -s /bin/bash devops_venla && \
+    echo "devops_venla:password" | chpasswd && \
+    usermod -aG usergroup1 devops_venla && \
+    chmod 771 /home/devops_venla
 
-RUN useradd -m -s /bin/bash automation && \
-    echo "automation:password" | chpasswd && \
-    usermod -aG usergroup1 automation && \
-    usermod -aG usergroup2 automation && \
-    chmod 771 /home/automation
+RUN useradd -m -s /bin/bash jenkins_agent && \
+    echo "jenkins_agent:password" | chpasswd && \
+    usermod -aG usergroup1 jenkins_agent && \
+    usermod -aG usergroup2 jenkins_agent && \
+    chmod 771 /home/jenkins_agent
 
-RUN useradd -m -s /bin/bash infra_admin && \
-    echo "infra_admin:password" | chpasswd && \
-    usermod -aG usergroup2 infra_admin && \
-    chmod 771 /home/infra_admin
+RUN useradd -m -s /bin/bash admin_anna && \
+    echo "admin_anna:password" | chpasswd && \
+    usermod -aG usergroup2 admin_anna && \
+    chmod 771 /home/admin_anna
 
 # Configuring Level 1 - SUID
 RUN chmod u+s /usr/bin/base64
 
 # Configuring Level 2 - PATH
-COPY --from=builder /src/vuln_bin /home/user3/vuln_bin
-RUN chown root:usergroup1 /home/user3/vuln_bin && \
-    chmod 4750 /home/user3/vuln_bin
-RUN ln -s /home/user3/vuln_bin /home/user2/vuln_bin
+COPY --from=builder /src/vuln_bin /home/jenkins_agent/vuln_bin
+RUN chown root:usergroup1 /home/jenkins_agent/vuln_bin && \
+    chmod 4750 /home/jenkins_agent/vuln_bin
+RUN ln -s /home/jenkins_agent/vuln_bin /home/devops_venla/vuln_bin
 
 # Configuring Level 3 - Cron Job
 # TODO: cron script should only be writable by owner and group.
-COPY ./scripts/cron.sh /home/user3/backup.sh
-RUN chown user4:usergroup2 /home/user3/backup.sh && \
-    chmod 760 /home/user3/backup.sh
+COPY ./scripts/cron.sh /home/jenkins_agent/backup.sh
+RUN chown admin_anna:usergroup2 /home/jenkins_agent/backup.sh && \
+    chmod 760 /home/jenkins_agent/backup.sh
 COPY ./configs/crontab /etc/crontab
 RUN chmod 640 /etc/crontab
 
@@ -67,15 +67,15 @@ COPY ./configs/sudoers /etc/sudoers
 RUN chmod 440 /etc/sudoers
 
 # Setup dummy flags
-RUN echo "Flag1" > /home/user2/flag1.txt && \
-    chown user2:user2 /home/user2/flag1.txt && \
-    chmod 640 /home/user2/flag1.txt
-RUN echo "Flag2" > /home/user3/flag2.txt && \
-    chown user3:user3 /home/user3/flag2.txt && \
-    chmod 640 /home/user3/flag2.txt
-RUN echo "Flag3" > /home/user4/flag3.txt && \
-    chown user4:user4 /home/user4/flag3.txt && \
-    chmod 640 /home/user4/flag3.txt
+RUN echo "Flag1" > /home/devops_venla/flag1.txt && \
+    chown devops_venla:devops_venla /home/devops_venla/flag1.txt && \
+    chmod 640 /home/devops_venla/flag1.txt
+RUN echo "Flag2" > /home/jenkins_agent/flag2.txt && \
+    chown jenkins_agent:jenkins_agent /home/jenkins_agent/flag2.txt && \
+    chmod 640 /home/jenkins_agent/flag2.txt
+RUN echo "Flag3" > /home/admin_anna/flag3.txt && \
+    chown admin_anna:admin_anna /home/admin_anna/flag3.txt && \
+    chmod 640 /home/admin_anna/flag3.txt
 RUN echo "Flag4" > /root/flag4.txt
 
 # Copying entrypoint script
