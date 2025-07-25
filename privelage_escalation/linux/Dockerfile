@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     openssh-server \
     sudo \
     cron \
-    less
+    less \
+    python3
 
 # Clean up apt cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -56,9 +57,10 @@ RUN ln -s /home/user3/vuln_bin /home/user2/vuln_bin
 # Configuring Level 3 - Cron Job
 # TODO: cron script should only be writable by owner and group.
 COPY ./scripts/cron.sh /home/user3/backup.sh
-RUN  chown user4:usergroup2 /home/user3/backup.sh && \
+RUN chown user4:usergroup2 /home/user3/backup.sh && \
     chmod 760 /home/user3/backup.sh
 COPY ./configs/crontab /etc/crontab
+RUN chmod 640 /etc/crontab
 
 # Configuring Level 4 - SUDO
 COPY ./configs/sudoers /etc/sudoers
