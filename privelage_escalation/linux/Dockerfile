@@ -1,7 +1,7 @@
 FROM gcc:11 AS builder
 WORKDIR /src
 COPY ./scripts/vulnerable.c ./
-RUN gcc vulnerable.c -o vuln_bin -w
+RUN gcc vulnerable.c -o tns_runner -w
 
 FROM ubuntu:focal
 
@@ -62,16 +62,19 @@ RUN useradd -m -s /bin/bash admin_anna && \
 RUN chmod u+s /usr/bin/base64
 
 # Configuring Level 2 - PATH
-COPY --from=builder /src/vuln_bin /home/jenkins_agent/vuln_bin
-RUN chown root:usergroup1 /home/jenkins_agent/vuln_bin && \
-    chmod 4750 /home/jenkins_agent/vuln_bin
-RUN ln -s /home/jenkins_agent/vuln_bin /home/devops_venla/vuln_bin
+COPY --from=builder /src/tns_runner /home/jenkins_agent/tns_runner
+RUN chown root:usergroup1 /home/jenkins_agent/tns_runner && \
+    chmod 4750 /home/jenkins_agent/tns_runner
+RUN ln -s /home/jenkins_agent/tns_runner /home/devops_venla/tns_runner
 
 # Configuring Level 3 - Cron Job
 # TODO: cron script should only be writable by owner and group.
-COPY ./scripts/cron.sh /home/jenkins_agent/backup.sh
-RUN chown admin_anna:usergroup2 /home/jenkins_agent/backup.sh && \
-    chmod 760 /home/jenkins_agent/backup.sh
+COPY ./scripts/cron.sh /home/jenkins_agent/build.sh
+RUN chown admin_anna:usergroup2 /home/jenkins_agent/build.sh && \
+    chmod 760 /home/jenkins_agent/build.sh
+RUN echo "Pipeline build failed." > /home/jenkins_agent/build_log.txt && \
+    chown jenkins_agent:usergroup2 /home/jenkins_agent/build_log.txt && \
+    chmod 640 /home/jenkins_agent/build_log.txt
 COPY ./configs/crontab /etc/crontab
 RUN chmod 640 /etc/crontab
 
