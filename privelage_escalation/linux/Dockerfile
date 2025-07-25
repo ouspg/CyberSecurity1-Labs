@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     less \
     python3
 
+# Clean up apt cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Creating realistic directories
 RUN mkdir -p /opt/scripts \
@@ -28,8 +30,6 @@ RUN echo "#!/bin/bash\n# nightly security scan" > /opt/scripts/security_scan.sh 
     echo "#!/bin/bash\necho 'rotating logs...'" > /opt/scripts/log_rotate.sh && \
     chmod 740 /opt/scripts/security_scan.sh /opt/scripts/log_rotate.sh
 
-# Clean up apt cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure the programs
 RUN mkdir /var/run/sshd
@@ -37,10 +37,6 @@ RUN mkdir /var/run/sshd
 # Create users and groups
 RUN groupadd -g 1004 usergroup1 && \
     groupadd -g 1005 usergroup2
-
-RUN useradd -m -s /bin/bash dev_aarni && \
-    echo "dev_aarni:password" | chpasswd && \
-    chmod 771 /home/dev_aarni
 
 RUN useradd -m -s /bin/bash devops_venla && \
     echo "devops_venla:password" | chpasswd && \
@@ -57,9 +53,6 @@ RUN useradd -m -s /bin/bash admin_anna && \
     echo "admin_anna:password" | chpasswd && \
     usermod -aG usergroup2 admin_anna && \
     chmod 771 /home/admin_anna
-
-# Configuring Level 1 - SUID
-RUN chmod u+s /usr/bin/base64
 
 # Configuring Level 2 - PATH
 COPY --from=builder /src/tns_runner /home/jenkins_agent/tns_runner
