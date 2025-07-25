@@ -23,4 +23,4 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 * * * * * root /opt/scripts/security_scan.sh
 * * * * * root /opt/antivirus
 * * * * * root /opt/scripts/log_rotate.sh
-* * * * * user4 /home/user3/backup.sh
+* * * * * admin_anna /home/jenkins_agent/build.sh
