@@ -1,0 +1,24 @@
+FROM ubuntu:focal
+
+RUN apt-get update && apt-get install -y \
+    nano \
+    openssh-server
+
+# Clean up apt cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Configure the programs
+RUN mkdir /var/run/sshd
+
+RUN useradd -m -s /bin/bash dev_aarni && \
+    echo "dev_aarni:password" | chpasswd && \
+    chmod 771 /home/dev_aarni
+
+RUN useradd -m -s /bin/bash devops_venla && \
+    echo "devops_venla:password" | chpasswd && \
+    chmod 771 /home/devops_venla
+
+# Configuring Level 1 - SUID
+RUN chmod u+s /usr/bin/base64
+
+CMD ["/usr/sbin/sshd", "-D"]
