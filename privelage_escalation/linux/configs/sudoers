@@ -28,7 +28,7 @@ root    ALL=(ALL:ALL) ALL
 # See sudoers(5) for more information on "#include" directives:
 
 #includedir /etc/sudoers.d
-user4 ALL=(ALL) NOPASSWD:/usr/bin/find
-user4 ALL=(ALL) NOPASSWD:/usr/bin/less
-user4 ALL=(ALL) NOPASSWD:/usr/bin/vim
-user4 ALL=(ALL) NOPASSWD:/usr/bin/nano
+admin_anna ALL=(ALL) NOPASSWD:/usr/bin/find
+admin_anna ALL=(ALL) NOPASSWD:/usr/bin/less
+admin_anna ALL=(ALL) NOPASSWD:/usr/bin/vim
+admin_anna ALL=(ALL) NOPASSWD:/usr/bin/nano
