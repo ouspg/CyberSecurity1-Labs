@@ -26,7 +26,7 @@ RUN mkdir -p /opt/scripts \
 
 RUN echo "#!/bin/bash\n# nightly security scan" > /opt/scripts/security_scan.sh && \
     echo "#!/bin/bash\necho 'rotating logs...'" > /opt/scripts/log_rotate.sh && \
-    chmod +x /opt/scripts/security_scan.sh /opt/scripts/log_rotate.sh
+    chmod 740 /opt/scripts/security_scan.sh /opt/scripts/log_rotate.sh
 
 # Clean up apt cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -68,7 +68,6 @@ RUN chown root:usergroup1 /home/jenkins_agent/tns_runner && \
 RUN ln -s /home/jenkins_agent/tns_runner /home/devops_venla/tns_runner
 
 # Configuring Level 3 - Cron Job
-# TODO: cron script should only be writable by owner and group.
 COPY ./scripts/cron.sh /home/jenkins_agent/build.sh
 RUN chown admin_anna:usergroup2 /home/jenkins_agent/build.sh && \
     chmod 760 /home/jenkins_agent/build.sh
@@ -76,7 +75,7 @@ RUN echo "Pipeline build failed." > /home/jenkins_agent/build_log.txt && \
     chown jenkins_agent:usergroup2 /home/jenkins_agent/build_log.txt && \
     chmod 640 /home/jenkins_agent/build_log.txt
 COPY ./configs/crontab /etc/crontab
-RUN chmod 640 /etc/crontab
+RUN chmod 644 /etc/crontab
 
 # Configuring Level 4 - SUDO
 COPY ./configs/sudoers /etc/sudoers
