@@ -1,7 +1,16 @@
 version: '3'
 services:
-  linux:
-    build: .
-    container_name: linux_container
+  system1:
+    build:
+      context: .
+      dockerfile: Dockerfile-system1
+    container_name: system1
     ports:
       - "2222:22"
+  system2:
+    build:
+      context: .
+      dockerfile: Dockerfile-system2
+    container_name: system2
+    ports:
+      - "2223:22"
