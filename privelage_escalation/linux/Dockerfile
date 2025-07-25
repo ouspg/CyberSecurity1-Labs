@@ -49,8 +49,8 @@ RUN chmod u+s /usr/bin/base64
 
 # Configuring Level 2 - PATH
 COPY --from=builder /src/vuln_bin /home/user3/vuln_bin
-RUN chown root:root /home/user3/vuln_bin && \
-    chmod 4755 /home/user3/vuln_bin
+RUN chown root:usergroup1 /home/user3/vuln_bin && \
+    chmod 4750 /home/user3/vuln_bin
 RUN ln -s /home/user3/vuln_bin /home/user2/vuln_bin
 
 # Configuring Level 3 - Cron Job
