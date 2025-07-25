@@ -1,5 +1,18 @@
 #!/bin/bash
-BACKUPTIME=`date +%Y-%m-%d_%H:%M:%S`
-DESTINATION="/home/dummyuser/backup_$BACKUPTIME.tar.gz"
-SOURCEFOLDER="/home/dummyuser/Documents/commercial/prices.xlsx"
-tar -cpzf $DESTINATION $SOURCEFOLDER
+node {
+    stage 'build'
+    echo 'build'
+
+    stage 'tests'
+    echo 'tests'
+
+    stage 'end-to-end-tests'
+    def e2e = build job:'end-to-end-tests', propagate: false
+    result = e2e.result
+    if (result.equals("SUCCESS")) {
+        stage 'deploy'
+        build 'deploy'
+    } else {
+        currentBuild.result = 'FAILURE'
+    }
+}
