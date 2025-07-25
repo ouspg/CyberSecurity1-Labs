@@ -25,25 +25,25 @@ RUN mkdir /var/run/sshd
 RUN groupadd -g 1004 usergroup1 && \
     groupadd -g 1005 usergroup2
 
-RUN useradd -m -s /bin/bash user1 && \
-    echo "user1:password" | chpasswd && \
-    chmod 771 /home/user1
+RUN useradd -m -s /bin/bash developer && \
+    echo "developer:password" | chpasswd && \
+    chmod 771 /home/developer
 
-RUN useradd -m -s /bin/bash user2 && \
-    echo "user2:password" | chpasswd && \
-    usermod -aG usergroup1 user2 && \
-    chmod 771 /home/user2
+RUN useradd -m -s /bin/bash devops && \
+    echo "devops:password" | chpasswd && \
+    usermod -aG usergroup1 devops && \
+    chmod 771 /home/devops
 
-RUN useradd -m -s /bin/bash user3 && \
-    echo "user3:password" | chpasswd && \
-    usermod -aG usergroup1 user3 && \
-    usermod -aG usergroup2 user3 && \
-    chmod 771 /home/user3
+RUN useradd -m -s /bin/bash automation && \
+    echo "automation:password" | chpasswd && \
+    usermod -aG usergroup1 automation && \
+    usermod -aG usergroup2 automation && \
+    chmod 771 /home/automation
 
-RUN useradd -m -s /bin/bash user4 && \
-    echo "user4:password" | chpasswd && \
-    usermod -aG usergroup2 user4 && \
-    chmod 771 /home/user4
+RUN useradd -m -s /bin/bash infra_admin && \
+    echo "infra_admin:password" | chpasswd && \
+    usermod -aG usergroup2 infra_admin && \
+    chmod 771 /home/infra_admin
 
 # Configuring Level 1 - SUID
 RUN chmod u+s /usr/bin/base64
