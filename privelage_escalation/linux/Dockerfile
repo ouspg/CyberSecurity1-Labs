@@ -15,6 +15,19 @@ RUN apt-get update && apt-get install -y \
     less \
     python3
 
+
+# Creating realistic directories
+RUN mkdir -p /opt/scripts \
+    /var/backups \
+    /srv/jenkins \
+    /opt/legacy_tools \
+    /mnt/shared/reports \
+    /home/shared_configs
+
+RUN echo "#!/bin/bash\n# nightly security scan" > /opt/scripts/security_scan.sh && \
+    echo "#!/bin/bash\necho 'rotating logs...'" > /opt/scripts/log_rotate.sh && \
+    chmod +x /opt/scripts/security_scan.sh /opt/scripts/log_rotate.sh
+
 # Clean up apt cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
