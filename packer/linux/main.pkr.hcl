@@ -6,3 +6,7 @@ packer {
     }
   }
 }
+
+source "vmware" "linuxlab" {
+    
+}
