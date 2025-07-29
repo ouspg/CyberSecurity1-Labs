@@ -8,5 +8,9 @@ packer {
 }
 
 source "vmware" "linuxlab" {
-    
+
+}
+
+build {
+    sources = ["source.vmware.linuxlab"]
 }
