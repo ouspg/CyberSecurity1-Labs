@@ -13,4 +13,9 @@ source "vmware" "linuxlab" {
 
 build {
     sources = ["source.vmware.linuxlab"]
+    provisioner "shell" {
+        inline = [
+            "whoami"
+        ]
+    }
 }
