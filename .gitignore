@@ -211,3 +211,4 @@ __marimo__/
 
 # Packer stuff:
 packer/linux/packer_cache/
+packer/linux/output*/
