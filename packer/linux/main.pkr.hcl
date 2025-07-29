@@ -7,12 +7,12 @@ packer {
   }
 }
 
-source "vmware" "linuxlab" {
+source "vmware-iso" "linuxlab" {
 
 }
 
 build {
-    sources = ["source.vmware.linuxlab"]
+    sources = ["source.vmware-iso.linuxlab"]
     provisioner "shell" {
         inline = [
             "whoami"
