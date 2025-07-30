@@ -45,6 +45,12 @@ source "vmware-iso" "ubuntusrv22" {
 build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
+  provisioner "shell" {
+    execute_command = "echo '${var.password}' | sudo -S env {{ .Vars }} {{ .Path }}"
+    scripts = [
+      "./scripts/setup.sh"
+    ]
+  }
   provisioner "file" {
     source = "../../vuln-research/"
     destination = "/labs/vuln_research"
