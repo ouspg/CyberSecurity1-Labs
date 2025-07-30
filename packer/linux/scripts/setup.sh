@@ -21,3 +21,5 @@ apt-get install docker-ce -y docker-ce-cli containerd.io docker-buildx-plugin do
 
 # Setup directories for labs
 mkdir -p /labs/vuln_research /labs/metasploit /labs/priv_esc
+
+sudo chown -R ubuntu:ubuntu /labs
