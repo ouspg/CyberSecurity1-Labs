@@ -13,7 +13,7 @@ variable "iso_checksum" {
 variable "ssh_username" {
   description = "The SSH username for the VM."
   type        = string
-  default     = env("SSH_USERNAME")
+  default     = "ubuntu"
 }
 
 variable "ssh_password" {
