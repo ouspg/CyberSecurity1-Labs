@@ -25,4 +25,4 @@ autoinstall:
     primary:
       - arches: [amd64]
         uri: "http://archive.ubuntu.com/ubuntu/"
-    fallback: offline-install
+    fallback: abort
