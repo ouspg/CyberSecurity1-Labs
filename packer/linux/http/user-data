@@ -1,6 +1,8 @@
 #cloud-config
 autoinstall:
   version: 1
+  early-commands:
+    - sudo systemctl stop ssh
   identity:
     hostname: "ubuntu-server"
     username: "ubuntu"
@@ -19,3 +21,8 @@ autoinstall:
     ethernets:
       ens33:
         dhcp4: true
+  apt:
+    primary:
+      - arches: [amd64]
+        uri: "http://archive.ubuntu.com/ubuntu/"
+    fallback: offline-install
