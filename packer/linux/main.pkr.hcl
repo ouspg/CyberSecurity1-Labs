@@ -23,7 +23,7 @@ source "vmware-iso" "ubuntusrv22" {
   headless = "${var.headless}"
 
   # Shutdown configurations
-  shutdown_command = "${var.shutdown_command}"
+  shutdown_command = "echo '${var.ssh_password}' | sudo -S -E shutdown -P now"
 
   # Boot Configurations
   boot_command = "${var.boot_command}"
