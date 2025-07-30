@@ -46,21 +46,21 @@ build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
   provisioner "shell" {
-    execute_command = "echo '${var.password}' | sudo -S env {{ .Vars }} {{ .Path }}"
+    execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
       "./scripts/setup.sh"
     ]
   }
   provisioner "file" {
-    source = "../../vuln-research/"
+    source      = "../../vuln-research/"
     destination = "/labs/vuln_research"
   }
   provisioner "file" {
-    source = "../../metasploit/"
+    source      = "../../metasploit/"
     destination = "/labs/metasploit"
   }
   provisioner "file" {
-    source = "../../privelege_escalation/linux/"
+    source      = "../../privelage_escalation/linux/"
     destination = "/labs/priv_esc"
   }
 }
