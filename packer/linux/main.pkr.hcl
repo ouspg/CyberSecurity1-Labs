@@ -45,9 +45,16 @@ source "vmware-iso" "ubuntusrv22" {
 build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
-  provisioner "shell" {
-    inline = [
-      "whoami"
-    ]
+  provisioner "file" {
+    source = "../../vuln-research/"
+    destination = "/labs/vuln_research"
+  }
+  provisioner "file" {
+    source = "../../metasploit/"
+    destination = "/labs/metasploit"
+  }
+  provisioner "file" {
+    source = "../../privelege_escalation/linux/"
+    destination = "/labs/priv_esc"
   }
 }
