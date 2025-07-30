@@ -33,9 +33,13 @@ source "vmware-iso" "ubuntusrv22" {
   communicator = "ssh"
   ssh_username = "${var.ssh_username}"
   ssh_password = "${var.ssh_password}"
+  ssh_timeout  = "30m"
 
   # HTTP directory configuration
   http_directory = "http"
+
+  # Export configurations
+  format = "ova"
 }
 
 build {
