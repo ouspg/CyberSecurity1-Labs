@@ -14,9 +14,14 @@ source "vmware-iso" "ubuntusrv22" {
   iso_checksum = "${var.iso_checksum}"
 
   # Hardware configurations
+  cpus      = 2
+  memory    = 2048
+  disk_size = 30720
+  network   = "nat"
 
   # Run Confgurations
   headless = "${var.headless}"
+
   # Shutdown configurations
   shutdown_command = "${var.shutdown_command}"
 
@@ -28,6 +33,9 @@ source "vmware-iso" "ubuntusrv22" {
   communicator = "ssh"
   ssh_username = "${var.ssh_username}"
   ssh_password = "${var.ssh_password}"
+
+  # HTTP directory configuration
+  http_directory = "http"
 }
 
 build {
