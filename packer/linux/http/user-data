@@ -4,7 +4,7 @@ autoinstall:
   identity:
     hostname: "ubuntu-server"
     username: "ubuntu"
-    password: "$6$hmEm6pi/k0ijPfBF$FL6Y51k0TiQze3KYHKDj0BzHb6jFTEQaKFWVVGweyekjGAAr/DnYzKHtZQzSCjjGTIxPxOveHaZAlAxg7pGCP."
+    password: "$6$DDBpL9PVYITSTlko$7vzrVV47BzuL.pjCsJOdCaFf4oSHxc6g24ZpMFWFp9N4ioLdILpPrOV8TX6AQtNiHH6AWFnN7q1ZXMVheMkfO/"
   ssh:
     install-server: true
     allow-pw: true
@@ -14,4 +14,8 @@ autoinstall:
     install: false
   keyboard:
     layout: "us"
-  
+  network:
+    version: 2
+    ethernets:
+      ens33:
+        dhcp4: true
