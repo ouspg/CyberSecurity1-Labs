@@ -1,0 +1,6 @@
+[Unit]
+Description=First boot setup script
+
+[Service]
+
+[Install]
