@@ -1,6 +1,18 @@
 [Unit]
 Description=First boot setup script
+DefaultDependencies=no
+Before=getty@tty1.service
+After=local-fs.target
+Conflicts=getty@tty1.service
 
 [Service]
+Type=oneshot
+ExecStart=/usr/local/bin/firstboot.sh
+RemainAfterExit=no
+StandardInput=tty
+StandardOutput=journal+console
+StandardError=journal+console
+TTYPath=/dev/tty1
 
 [Install]
+WantedBy=multi-user.target
