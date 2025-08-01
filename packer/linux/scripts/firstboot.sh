@@ -1,15 +1,19 @@
 #!/bin/bash
 # Performs one time setup at first boot of the VM.
 
+bold="$(tput bold)"
+blue="$(tput setaf 4)" 
+cyan="$(tput setaf 6)"
+green="$(tput setaf 2)"
+reset="$(tput sgr0)"
+
 banner() {
     # This function prints a banner to the terminal.
     
-    if [ -x "$(command -v tput)" ]; then
-        bold="$(tput bold)"
-        blue="$(tput setaf 4)" 
-        cyan="$(tput setaf 6)"  
-        reset="$(tput sgr0)"
-    fi
+    bold="$(tput bold)"
+    blue="$(tput setaf 4)" 
+    cyan="$(tput setaf 6)"  
+    reset="$(tput sgr0)"
 
     art="${bold}${blue}           
   __               __    __                   __       __          
@@ -43,9 +47,18 @@ getStudentEmail() {
 
 launchDockerCompose() {
     # Start the Docker Compose services for the labs
+    echo "Setting up the lab environment..."
+
     # docker compose -f /labs/vuln_research/docker-compose.yml up -d
-    docker compose -f /labs/metasploit/docker-compose.yml up -d
-    docker compose -f /labs/priv_esc/docker-compose.yml up -d
+    docker compose -f /labs/metasploit/docker-compose.yml up -d &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
+    fi
+
+    docker compose -f /labs/priv_esc/docker-compose.yml up -d &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "${bold}${green}[  OK  ]${reset}   Privilege Escalation lab is up and running!"
+    fi
 }
 
 generateFlags() {
@@ -64,15 +77,18 @@ injectFlags() {
 }
 
 setup() {
+    clear
     # Sets up the lab environment by calling the necessary functions
     getStudentEmail
+    
+    clear
+    banner
 
     # export the student email to the environment
     export STUDENT_EMAIL
 
     launchDockerCompose
 }
-
 #unbind the interrupt key
 stty intr undef
 
