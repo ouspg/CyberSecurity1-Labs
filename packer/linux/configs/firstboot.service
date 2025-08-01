@@ -1,18 +1,18 @@
 [Unit]
-Description=First boot setup script
+Description=First Boot Setup Script
 DefaultDependencies=no
+After=docker.service
 Before=getty@tty1.service
-After=local-fs.target
-Conflicts=getty@tty1.service
 
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/firstboot.sh
 RemainAfterExit=no
 StandardInput=tty
-StandardOutput=journal+console
-StandardError=journal+console
+StandardOutput=inherit
+StandardError=inherit
 TTYPath=/dev/tty1
+RemainAfterExit=no
 
 [Install]
 WantedBy=multi-user.target
