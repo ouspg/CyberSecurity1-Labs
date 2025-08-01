@@ -25,7 +25,23 @@ launchDockerCompose() {
     docker compose -f /labs/priv_esc/docker-compose.yml up -d
 }
 
+generateFlags() {
+    # Generates dynamic flags for the labs
+    # This could be done by creating files, setting environment variables, etc.
+    # For now, it just echoes message
+    echo "Generating flags..."
+
+}
+
+injectFlags() {
+    # Injects the generated flags into the lab environment
+    # This could be done by copying files, setting environment variables, etc.
+    # For now, it just echoes a message
+    echo "Flags injected successfully."
+}
+
 setup() {
+    # Sets up the lab environment by calling the necessary functions
     getStudentEmail
 
     # export the student email to the environment
