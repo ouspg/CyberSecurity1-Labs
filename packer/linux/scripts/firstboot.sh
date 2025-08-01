@@ -77,6 +77,19 @@ injectFlags() {
     echo "Flags injected successfully."
 }
 
+cleanup() {
+    # This function performs the cleanup operations after the setup is complete.
+    echo "Performing cleanup operations..."
+
+    # Disable and remove the service to prevent it from running again
+    #TODO: use variables for the service names
+    systemctl disable firstboot.service &> /dev/null
+    # $rm "$0"
+
+    echo "${bold}${green}[  OK  ]${reset}   Cleanup completed successfully."
+    read -p "Press [Enter] to continue..." -r
+}
+
 setup() {
     clear
     # Sets up the lab environment by calling the necessary functions
@@ -91,6 +104,8 @@ setup() {
     export STUDENT_EMAIL
 
     launchDockerCompose
+
+    cleanup
 }
 #unbind the interrupt key
 stty intr undef
