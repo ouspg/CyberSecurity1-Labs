@@ -1,9 +1,32 @@
 #!/bin/bash
 # Performs one time setup at first boot of the VM.
 
-exitstatus=1
+banner() {
+    # This function prints a banner to the terminal.
+    
+    if [ -x "$(command -v tput)" ]; then
+        bold="$(tput bold)"
+        blue="$(tput setaf 4)" 
+        cyan="$(tput setaf 6)"  
+        reset="$(tput sgr0)"
+    fi
+
+    art="${bold}${blue}           
+  __               __    __                   __       __          
+ |  |--.---.-.----|  |--|__.-----.-----.     |  .---.-|  |--.-----.
+ |     |  _  |  __|    <|  |     |  _  |     |  |  _  |  _  |__ --|
+ |__|__|___._|____|__|__|__|__|__|___  |_____|__|___._|_____|_____|
+                                 |_____|______|                    
+
+    ${reset}${cyan}          labs for IC00AJ64-3002 Course${reset}            "                                                      
+
+    echo "$art"
+
+}
 
 getStudentEmail() {
+    # This function prompts the user to enter their email address.
+    exitstatus=1
     # Run the loop until a valid email is entered
     while [ $exitstatus != 0 ]
     do
