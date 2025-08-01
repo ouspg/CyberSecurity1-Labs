@@ -18,6 +18,20 @@ getStudentEmail() {
     done
 }
 
-main() {
-    getStudentEmail
+launchDockerCompose() {
+    # Start the Docker Compose services for the labs
+    # docker compose -f /labs/vuln_research/docker-compose.yml up -d
+    docker compose -f /labs/metasploit/docker-compose.yml up -d
+    docker compose -f /labs/priv_esc/docker-compose.yml up -d
 }
+
+setup() {
+    getStudentEmail
+
+    # export the student email to the environment
+    export STUDENT_EMAIL
+
+    launchDockerCompose
+}
+
+setup
