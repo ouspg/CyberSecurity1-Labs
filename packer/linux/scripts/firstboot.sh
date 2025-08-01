@@ -34,4 +34,10 @@ setup() {
     launchDockerCompose
 }
 
+#unbind the interrupt key
+stty intr undef
+
 setup
+
+# restore interrupt key
+stty intr ^C
