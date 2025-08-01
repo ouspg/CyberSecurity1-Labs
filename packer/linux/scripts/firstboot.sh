@@ -5,6 +5,7 @@ bold="$(tput bold)"
 blue="$(tput setaf 4)" 
 cyan="$(tput setaf 6)"
 green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
 
 banner() {
@@ -80,9 +81,11 @@ setup() {
     clear
     # Sets up the lab environment by calling the necessary functions
     getStudentEmail
-    
+
     clear
     banner
+
+    echo "Student email set to: ${bold}${yellow}${STUDENT_EMAIL}${reset}"
 
     # export the student email to the environment
     export STUDENT_EMAIL
