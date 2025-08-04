@@ -22,7 +22,7 @@ class LabInjector:
     Class for grouping multiple task injectors.
     """
 
-    def __init__(self, lab_id: str, tasks: list[TaskInjector]):
+    def __init__(self, lab_id: str, tasks: list[TaskInjector], flags: Dict[str, str]):
         """
         Initialize the lab injector with a lab ID and a list of task injectors.
         :param lab_id: Identifier for the lab.
@@ -30,6 +30,7 @@ class LabInjector:
         """
         self.lab_id = lab_id
         self.task_injectors = tasks
+        self.flags = flags
 
     def add_injector(self, injector: TaskInjector):
         """
@@ -37,12 +38,12 @@ class LabInjector:
         """
         self.task_injectors.append(injector)
 
-    def inject_all(self, flags: Dict[str, str]):
+    def inject_all(self):
         """
         Inject flags for all task injectors in the lab.
         """
         for injector in self.task_injectors:
-            flag = flag.get(injector.task_id)
+            flag = self.flags.get(injector.task_id)
             if not flag:
                 raise ValueError(f"No flag provided for {self.lab_id}/{injector.task_id}")
             injector.inject(flag)
