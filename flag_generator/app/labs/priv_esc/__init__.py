@@ -78,3 +78,16 @@ def group_tasks():
     }
     PrivEscLab = LabInjector("priv_esc_lab", tasks, flags)
     PrivEscLab.inject_all()
+
+def get_lab_data():
+    """
+    Get lab data for the Privilege Escalation lab.
+    """
+    return {
+        "priv_esc_lab": [
+            "suid_task",
+            "path_task",
+            "cron_task",
+            "sudo_task"
+        ]
+    }
