@@ -6,6 +6,9 @@ class TaskInjector(ABC):
     This class defines the interface for injecting flags for a task.
     """
 
+    def __init__(self, task_id: str):
+        self.task_id = task_id
+
     @abstractmethod
     def inject(self, flag: str):
         """
@@ -19,17 +22,17 @@ class LabInjector:
     """
 
     def __init__(self, tasks: list[TaskInjector]):
-        self.injectors = tasks
+        self.task_injectors = tasks
 
     def add_injector(self, injector: TaskInjector):
         """
         Add a task injector to the lab.
         """
-        self.injectors.append(injector)
+        self.task_injectors.append(injector)
 
     def inject_all(self, flag: str):
         """
         Inject flags for all task injectors in the lab.
         """
-        for injector in self.injectors:
+        for injector in self.task_injectors:
             injector.inject(flag)
