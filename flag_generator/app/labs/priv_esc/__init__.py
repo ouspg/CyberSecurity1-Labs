@@ -2,7 +2,7 @@
 Privelage Escalation lab
 """
 
-from app.template import TaskInjector, LabInjector
+from app.injector import LabInjector, TaskInjector
 
 class SUID(TaskInjector):
     """
