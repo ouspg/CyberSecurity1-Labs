@@ -59,3 +59,22 @@ class Sudo(TaskInjector):
         Inject the SUDO flag.
         """
         print(f"Injecting SUDO flag: {flag}")
+
+def group_tasks():
+    """
+    Group all task injectors for the Privilege Escalation lab.
+    """
+    tasks = [
+        SUID("suid_task"),
+        PATH("path_task"),
+        Cron("cron_task"),
+        Sudo("sudo_task")
+    ]
+    flags = {
+        "suid_task": "FLAG_SUID",
+        "path_task": "FLAG_PATH",
+        "cron_task": "FLAG_CRON",
+        "sudo_task": "FLAG_SUDO"
+    }
+    PrivEscLab = LabInjector("priv_esc_lab", tasks, flags)
+    PrivEscLab.inject_all()
