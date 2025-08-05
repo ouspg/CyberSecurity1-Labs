@@ -1,3 +1,8 @@
+"""
+This module defines the abstract base class for tasks and a lab that groups multiple tasks.
+It provides an interface for injecting flags for tasks and managing multiple tasks within a lab context.
+"""
+
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
