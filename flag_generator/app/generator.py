@@ -1,32 +1,75 @@
-from typing import Dict
-import hmac
+"""
+This module defines the FlagGenerator class that generates flags based on a secret, email, lab names,
+and task IDs. It uses HMAC for secure flag generation and truncates the digest to a specified length.
+"""
+
 import hashlib
+import hmac
+from typing import Dict, List
+
+from app.injector import Lab
 
 
 class FlagGenerator:
-    def __init__(self, secret:str, labs: Dict[str, list]):
+    """
+    Class for generating flags based on a secret, email, lab names, and task IDs.
+    It uses HMAC with SHA-256 to create secure flags and truncates the digest to a specified length.
+
+    Attributes:
+        secret (str): The secret key used for HMAC generation.
+        labs (List[Lab]): List of labs containing tasks for which flags will be generated.
+    """
+
+    def __init__(self, secret: str, labs: List[Lab]):
+        """
+        Initialize the FlagGenerator with a secret and a list of labs.
+
+        Parameters:
+            secret (str): The secret key used for HMAC generation.
+            labs (List[Lab]): List of labs containing tasks for which flags will be generated.
+        """
+
         self.secret = secret
         self.labs = labs
-    
-    def __make_flag(self, email, lab_name: str, task_id: str) -> str:
+
+    def __make_flag(self, email: str, lab_id: str, task_id: str) -> str:
         """
-        Generate a flag based on the email, lab name, and task ID.
+        Generate a flag based on the email, lab ID, and task ID.
+        It uses HMAC with SHA-256 to create a secure flag and truncates the digest to 16 characters.
+
+        Parameters:
+            email (str): The email address to use for generating the flag.
+            lab_id (str): The identifier for the lab.
+            task_id (str): The identifier for the task.
+
+        Returns:
+            str: The generated flag in the format `FLAG{<truncated_digest>}`.
         """
-        base = f"{email}|{lab_name}|{task_id}"
-        digest = hmac.new(self.secret.encode(), base.encode(), hashlib.sha256).hexdigest()
+
+        base = f"{email}|{lab_id}|{task_id}"
+        digest = hmac.new(self.secret.encode(), base.encode(),
+                          hashlib.sha256).hexdigest()
         truncated_digest = digest[:16]  # Truncate to 16 characters
         flag = f"FLAG{{{truncated_digest}}}"
         return flag
-    
-    def generate_flags(self, email: str):
+
+    def generate_flags(self, email: str) -> Dict[str, Dict[str, str]]:
         """
-        Generate flags for the given email based on the secret and labs.
+        Generate flags for the given email based on the secret and labs data.
+        It iterates through the labs and their tasks, generating a flag for each task.
+
+        Parameters:
+            email (str): The email address to use for generating flags.
+
+        Returns:
+            Dict[str, Dict[str, str]]: A dictionary where the keys are lab IDs and the values are dictionaries
+                of task IDs and their corresponding flags.
         """
-        
+
         flags = {}
-        for lab_name, tasks in self.labs.items():
-            flags.update({lab_name: {}})
-            for task_id in tasks:
-                flag = self.__make_flag(email, lab_name, task_id)
-                flags[lab_name][task_id] = flag
+        for lab in self.labs:
+            flags.update({lab.lab_id: {}})
+            for task in lab.get_tasks():
+                flag = self.__make_flag(email, lab.lab_id, task.task_id)
+                flags[lab.lab_id][task.task_id] = flag
         return flags
