@@ -4,7 +4,7 @@ It provides an interface for injecting flags for tasks and managing multiple tas
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, List
+from typing import List
 
 
 class Task(ABC):
@@ -29,14 +29,10 @@ class Task(ABC):
         self.task_id = task_id
         self.__flag = flag
 
-
     @abstractmethod
-    def inject(self, flag: str):
+    def inject(self):
         """
         Inject flags for a task.
-
-        Parameters:
-            flag (str): The flag to inject for the task.
         This method must be implemented by subclasses.
         """
 
@@ -51,7 +47,7 @@ class Task(ABC):
         """
 
         self.__flag = flag
-    
+
     def get_flag(self) -> str:
         """
         Get the flag for the task.
@@ -71,8 +67,6 @@ class Lab:
     Attributes:
         lab_id (str): Identifier for the lab.
         tasks (List[Task]): List of tasks for the lab.
-        flags (Dict[str, str]): Dictionary of flags for the tasks in the lab. The keys are
-            task IDs and the values are the corresponding flags.
     """
 
     def __init__(self, lab_id: str, tasks: List[Task]):
@@ -90,26 +84,28 @@ class Lab:
     def add_task(self, task: Task):
         """
         Add a task to the lab.
+
+        Parameters:
+            task (Task): The task to add to the lab.
         """
+
         self.tasks.append(task)
 
-    def get_tasks(self):
+    def get_tasks(self) -> List[Task]:
         """
         Get the list of tasks for the lab.
+
+        Returns:
+            List[Task]: The list of tasks for the lab.
         """
+
         return self.tasks
 
-    # def inject_all(self):
-    #     """
-    #     Inject flags for all tasks in the lab.
-    #     This method iterates through all tasks and injects the corresponding flags by calling Task.inject().
+    def inject_all(self):
+        """
+        Inject flags for all tasks in the lab.
+        This method iterates through all tasks and calls their inject method.
+        """
 
-    #     Raises:
-    #         ValueError: If a flag for a task is not provided in the flags dictionary.
-    #     """
-    #     for task in self.tasks:
-    #         flag = self.flags.get(task.task_id)
-    #         if not flag:
-    #             raise ValueError(
-    #                 f"No flag provided for {self.lab_id}/{task.task_id}")
-    #         task.inject(flag)
+        for task in self.tasks:
+            task.inject()
