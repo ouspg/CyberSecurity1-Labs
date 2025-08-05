@@ -2,8 +2,8 @@
 Main script for the Flag Generator application.
 """
 
-import json
 import argparse
+import json
 
 from app import labs as plugin
 from app.generator import FlagGenerator
@@ -12,6 +12,7 @@ from app.utils.helpers import create_all_labs, discover_plugins
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
+
 
 def main(args: argparse.Namespace):
     """
@@ -43,7 +44,6 @@ def main(args: argparse.Namespace):
             flags.update(gen.generate_flags(email.strip()))
 
     logger.info(f"Generated flags: {flags}")
-
 
     # If email file is provided it will generate multiple flags for same labs so
     # inject flags only under normal operation i.e single email passed via `--email` parameter
@@ -82,5 +82,3 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     main(args)
-
-    
