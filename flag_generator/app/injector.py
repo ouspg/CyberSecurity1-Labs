@@ -14,6 +14,7 @@ class Task(ABC):
 
     Attributes:
         task_id (str): Identifier for the task.
+        __flag (str): The flag for the task, which is private and should be set through the `set_flag` method.
     """
 
     def __init__(self, task_id: str, flag: str = ''):
@@ -26,7 +27,7 @@ class Task(ABC):
         """
 
         self.task_id = task_id
-        self.flag = flag
+        self.__flag = flag
 
 
     @abstractmethod
@@ -40,6 +41,26 @@ class Task(ABC):
         """
 
         pass
+
+    def set_flag(self, flag: str):
+        """
+        Set the flag for the task.
+
+        Parameters:
+            flag (str): The flag to set for the task.
+        """
+
+        self.__flag = flag
+    
+    def get_flag(self) -> str:
+        """
+        Get the flag for the task.
+
+        Returns:
+            str: The flag for the task.
+        """
+
+        return self.__flag
 
 
 class Lab:
@@ -62,6 +83,7 @@ class Lab:
             lab_id (str): Identifier for the lab.
             tasks (List[Task]): List of tasks for the lab.
         """
+
         self.lab_id = lab_id
         self.tasks = tasks
 
