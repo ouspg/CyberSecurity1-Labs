@@ -82,7 +82,7 @@ def get_config(section: str = "", key: str = "", env_var: str = "") -> str | Non
 
     if section and key:
         config = ConfigParser()
-        config.read("./config.ini")
+        config.read(os.path.dirname(__file__) + "/config.ini")
         config_value = config[section][key]
     else:
         config_value = os.environ.get(env_var)
