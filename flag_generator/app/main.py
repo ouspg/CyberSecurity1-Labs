@@ -9,9 +9,8 @@ from typing import List
 from app import labs as plugin
 from app.generator import FlagGenerator
 from app.injector import Lab
-from app.utils import create_all_labs, discover_plugins
+from app.utils import create_all_labs, discover_plugins, get_config
 
-secret = os.environ.get("SECRET")
 email = "student@student.oulu.fi"
 
 if __name__ == "__main__":
@@ -21,7 +20,7 @@ if __name__ == "__main__":
     labs = create_all_labs(plugins)
     print("Labs created:", labs)
 
-    gen = FlagGenerator(secret, labs)
+    gen = FlagGenerator(get_config(env_var="secret"), labs)
     flags = gen.generate_flags(email)
 
     print("Generated flags:", flags)
