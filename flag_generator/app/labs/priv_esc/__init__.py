@@ -14,14 +14,12 @@ class SUID(Task):
     def __init__(self, task_id: str):
         super().__init__(task_id)
 
-    def inject(self, flag: str):
+    def inject(self):
         """
         Inject the SUID task flag.
-
-        Parameters:
-            flag (str): The flag to inject for the SUID task.
         """
-        print(f"Injecting SUID flag: {flag}")
+
+        print(f"Injecting SUID flag: {self.get_flag()}")
 
 
 class PATH(Task):
@@ -32,14 +30,12 @@ class PATH(Task):
     def __init__(self, task_id: str):
         super().__init__(task_id)
 
-    def inject(self, flag: str):
+    def inject(self):
         """
         Inject the PATH task flag.
-
-        Parameters:
-            flag (str): The flag to inject for the PATH task.
         """
-        print(f"Injecting PATH flag: {flag}")
+        
+        print(f"Injecting PATH flag: {self.get_flag}")
 
 
 class CRON(Task):
@@ -50,13 +46,13 @@ class CRON(Task):
     def __init__(self, task_id: str):
         super().__init__(task_id)
 
-    def inject(self, flag: str):
+    def inject(self):
         """
         Inject the CRON task flag.
-        Parameters:
-            flag (str): The flag to inject for the CRON task.
         """
-        print(f"Injecting CRON flag: {flag}")
+
+        print(f"Injecting CRON flag: {self.get_flag()}")
+
 
 
 class SUDO(Task):
@@ -67,41 +63,59 @@ class SUDO(Task):
     def __init__(self, task_id: str):
         super().__init__(task_id)
 
-    def inject(self, flag: str):
+    def inject(self):
         """
         Inject the SUDO task flag.
-
-        Parameters:
-            flag (str): The flag to inject for the SUDO task.
         """
-        print(f"Injecting SUDO flag: {flag}")
+
+        print(f"Injecting SUDO flag: {self.get_flag()}")
 
 
-def group_tasks(flags: dict[str, str]):
+def create_lab() -> Lab:
     """
-    Group all task injectors for the Privilege Escalation lab.
+    Create the Privilege Escalation lab with its tasks.
+    This function initializes the lab with the defined tasks and returns it.
+
+    Returns:
+        Lab: An instance of the Lab class containing the privilege escalation tasks.
     """
-    print(flags)
+
     tasks = [
         SUID("suid_task"),
         PATH("path_task"),
         CRON("cron_task"),
         SUDO("sudo_task")
     ]
+    PrivEscLab = Lab("priv_esc", tasks)
 
-    PrivEscLab = Lab("priv_esc", tasks, flags)
-    PrivEscLab.inject_all()
+    return PrivEscLab
 
 
-def get_lab_data():
-    """
-    Get lab data for the Privilege Escalation lab.
-    """
-    return {
-        "priv_esc": [
-            "suid_task",
-            "path_task",
-            "cron_task",
-            "sudo_task"
-        ]
-    }
+# def group_tasks(flags: dict[str, str]):
+#     """
+#     Group all task injectors for the Privilege Escalation lab.
+#     """
+#     print(flags)
+#     tasks = [
+#         SUID("suid_task"),
+#         PATH("path_task"),
+#         CRON("cron_task"),
+#         SUDO("sudo_task")
+#     ]
+
+#     PrivEscLab = Lab("priv_esc", tasks, flags)
+#     PrivEscLab.inject_all()
+
+
+# def get_lab_data():
+#     """
+#     Get lab data for the Privilege Escalation lab.
+#     """
+#     return {
+#         "priv_esc": [
+#             "suid_task",
+#             "path_task",
+#             "cron_task",
+#             "sudo_task"
+#         ]
+#     }
