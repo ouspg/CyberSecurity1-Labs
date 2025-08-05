@@ -47,5 +47,9 @@ def main():
     flags = gen.generate_flags(email)
     print("Generated flags:", flags)
 
+    for plugin_name, plugin_module in plugins.items():
+        if hasattr(plugin_module, 'group_tasks'):
+            plugin_module.group_tasks(flags.get(plugin_name.split('.')[2]))
+
 if __name__ == "__main__":
     main()
