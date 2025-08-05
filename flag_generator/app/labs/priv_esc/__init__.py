@@ -3,6 +3,7 @@ Privelage Escalation lab
 """
 
 from app.injector import LabInjector, TaskInjector
+# from app.schemas import LabInfo
 
 class SUID(TaskInjector):
     """
@@ -60,23 +61,19 @@ class Sudo(TaskInjector):
         """
         print(f"Injecting SUDO flag: {flag}")
 
-def group_tasks():
+def group_tasks(flags: dict[str, str]):
     """
     Group all task injectors for the Privilege Escalation lab.
     """
+    print(flags)
     tasks = [
         SUID("suid_task"),
         PATH("path_task"),
         Cron("cron_task"),
         Sudo("sudo_task")
     ]
-    flags = {
-        "suid_task": "FLAG_SUID",
-        "path_task": "FLAG_PATH",
-        "cron_task": "FLAG_CRON",
-        "sudo_task": "FLAG_SUDO"
-    }
-    PrivEscLab = LabInjector("priv_esc_lab", tasks, flags)
+
+    PrivEscLab = LabInjector("priv_esc", tasks, flags)
     PrivEscLab.inject_all()
 
 def get_lab_data():
@@ -84,7 +81,7 @@ def get_lab_data():
     Get lab data for the Privilege Escalation lab.
     """
     return {
-        "priv_esc_lab": [
+        "priv_esc": [
             "suid_task",
             "path_task",
             "cron_task",
