@@ -91,24 +91,3 @@ class Lab:
                 raise ValueError(
                     f"No flag provided for {self.lab_id}/{task.task_id}")
             task.inject(flag)
-
-    def get_tasks(self):
-        """
-        Get the list of tasks for the lab.
-        """
-        return self.tasks
-
-    def inject_all(self):
-        """
-        Inject flags for all tasks in the lab.
-        This method iterates through all tasks and injects the corresponding flags by calling Task.inject().
-
-        Raises:
-            ValueError: If a flag for a task is not provided in the flags dictionary.
-        """
-        for task in self.tasks:
-            flag = self.flags.get(task.task_id)
-            if not flag:
-                raise ValueError(
-                    f"No flag provided for {self.lab_id}/{task.task_id}")
-            task.inject(flag)
