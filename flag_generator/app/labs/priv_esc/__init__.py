@@ -1,13 +1,14 @@
 """
-Privelage Escalation lab
+This package contains the Privilege Escalation lab for the Flag Generator application.
+It defines various privilege escalation tasks and groups them into a lab.
 """
 
-from app.injector import LabInjector, TaskInjector
-# from app.schemas import LabInfo
+from app.injector import Lab, Task
 
-class SUID(TaskInjector):
+
+class SUID(Task):
     """
-    Task injector for SUID tasks.
+    SUID task for privilege escalation.
     """
 
     def __init__(self, task_id: str):
@@ -15,13 +16,17 @@ class SUID(TaskInjector):
 
     def inject(self, flag: str):
         """
-        Inject the SUID flag.
+        Inject the SUID task flag.
+
+        Parameters:
+            flag (str): The flag to inject for the SUID task.
         """
         print(f"Injecting SUID flag: {flag}")
 
-class PATH(TaskInjector):
+
+class PATH(Task):
     """
-    Task injector for PATH tasks.
+    PATH task for privilege escalation.
     """
 
     def __init__(self, task_id: str):
@@ -29,13 +34,17 @@ class PATH(TaskInjector):
 
     def inject(self, flag: str):
         """
-        Inject the PATH flag.
+        Inject the PATH task flag.
+
+        Parameters:
+            flag (str): The flag to inject for the PATH task.
         """
         print(f"Injecting PATH flag: {flag}")
 
-class Cron(TaskInjector):
+
+class CRON(Task):
     """
-    Task injector for CRON tasks.
+    CRON task for privilege escalation.
     """
 
     def __init__(self, task_id: str):
@@ -43,13 +52,16 @@ class Cron(TaskInjector):
 
     def inject(self, flag: str):
         """
-        Inject the CRON flag.
+        Inject the CRON task flag.
+        Parameters:
+            flag (str): The flag to inject for the CRON task.
         """
         print(f"Injecting CRON flag: {flag}")
 
-class Sudo(TaskInjector):
+
+class SUDO(Task):
     """
-    Task injector for SUDO tasks.
+    SUDO task for privilege escalation.
     """
 
     def __init__(self, task_id: str):
@@ -57,9 +69,13 @@ class Sudo(TaskInjector):
 
     def inject(self, flag: str):
         """
-        Inject the SUDO flag.
+        Inject the SUDO task flag.
+
+        Parameters:
+            flag (str): The flag to inject for the SUDO task.
         """
         print(f"Injecting SUDO flag: {flag}")
+
 
 def group_tasks(flags: dict[str, str]):
     """
@@ -69,12 +85,13 @@ def group_tasks(flags: dict[str, str]):
     tasks = [
         SUID("suid_task"),
         PATH("path_task"),
-        Cron("cron_task"),
-        Sudo("sudo_task")
+        CRON("cron_task"),
+        SUDO("sudo_task")
     ]
 
-    PrivEscLab = LabInjector("priv_esc", tasks, flags)
+    PrivEscLab = Lab("priv_esc", tasks, flags)
     PrivEscLab.inject_all()
+
 
 def get_lab_data():
     """
