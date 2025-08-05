@@ -5,7 +5,9 @@ Flag Generator Application.
 
 import importlib
 import pkgutil
-from typing import Dict, Iterator
+from typing import Dict, Iterator, List
+
+from app.injector import Lab
 
 
 def iter_namespace(ns_pkg) -> Iterator[pkgutil.ModuleInfo]:
@@ -35,3 +37,27 @@ def discover_plugins(ns_pkg) -> Dict[str, pkgutil.ModuleInfo]:
         in iter_namespace(ns_pkg)
     }
     return discovered_plugins
+
+
+def create_all_labs(plugins) -> List[Lab]:
+    """
+    Creates all the labs by calling the `<module>.create_lab` method.
+
+    Parameters:
+        plugins (Dict[str, pkgutil.ModuleInfo]): The discovered plugins dictionary where the keys are
+            the plugin names and the values are the corresponding module objects.
+
+    Returns:
+        List[Lab]: The list of Lab objects  
+    """
+
+    labs = []
+    for plugin_name, plugin_module in plugins.items():
+        print(f"Loaded plugin: {plugin_name}")
+        if hasattr(plugin_module, 'create_lab'):
+            lab = plugin_module.create_lab()
+            labs.append(lab)
+            print(
+                f"Created lab: {lab.lab_id} with tasks: {[task.task_id for task in lab.get_tasks()]}")
+
+    return labs
