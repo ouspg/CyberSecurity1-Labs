@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
+
 class Task(ABC):
     """
     Abstract base class for tasks.
@@ -31,6 +32,7 @@ class Task(ABC):
         """
 
         pass
+
 
 class Lab:
     """
@@ -74,14 +76,15 @@ class Lab:
         """
         Inject flags for all tasks in the lab.
         This method iterates through all tasks and injects the corresponding flags by calling Task.inject().
-        
+
         Raises:
             ValueError: If a flag for a task is not provided in the flags dictionary.
         """
         for task in self.tasks:
             flag = self.flags.get(task.task_id)
             if not flag:
-                raise ValueError(f"No flag provided for {self.lab_id}/{task.task_id}")
+                raise ValueError(
+                    f"No flag provided for {self.lab_id}/{task.task_id}")
             task.inject(flag)
 
     def get_tasks(self):
@@ -101,5 +104,6 @@ class Lab:
         for task in self.tasks:
             flag = self.flags.get(task.task_id)
             if not flag:
-                raise ValueError(f"No flag provided for {self.lab_id}/{task.task_id}")
+                raise ValueError(
+                    f"No flag provided for {self.lab_id}/{task.task_id}")
             task.inject(flag)
