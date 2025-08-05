@@ -4,7 +4,9 @@ Flag Generator Application.
 """
 
 import importlib
+import os
 import pkgutil
+from configparser import ConfigParser
 from typing import Dict, Iterator, List
 
 from app.injector import Lab
@@ -61,3 +63,28 @@ def create_all_labs(plugins) -> List[Lab]:
                 f"Created lab: {lab.lab_id} with tasks: {[task.task_id for task in lab.get_tasks()]}")
 
     return labs
+
+
+def get_config(section: str = "", key: str = "", env_var: str = "") -> str | None:
+    """
+    Read the config option from the config file.
+
+    Parameters:
+        section (str): Option config file section
+        key (str): Optional config file key
+        env_var (str): Optional environment variable
+
+    Returns:
+        (str | None): The config value or None if no config sepcified
+    """
+
+    config_value = None
+
+    if section and key:
+        config = ConfigParser()
+        config.read("./config.ini")
+        config_value = config[section][key]
+    else:
+        config_value = os.environ.get(env_var)
+
+    return config_value
