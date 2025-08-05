@@ -53,7 +53,7 @@ class FlagGenerator:
         flag = f"FLAG{{{truncated_digest}}}"
         return flag
 
-    def generate_flags(self, email: str) -> Dict[str, Dict[str, str]]:
+    def generate_flags(self, email: str) -> Dict[str, Dict[str, Dict[str, str]]]:
         """
         Generate flags for the given email based on the secret and labs data.
         It iterates through the labs and their tasks, generating a flag for each task.
@@ -68,11 +68,11 @@ class FlagGenerator:
 
         flags = {}
         for lab in self.labs:
-            flags.update({lab.lab_id: {}})
+            flags.update({email: {lab.lab_id: {}}})
             for task in lab.get_tasks():
                 flag = self.__make_flag(email, lab.lab_id, task.task_id)
                 self.assign_flags(task, flag)
-                flags[lab.lab_id][task.task_id] = flag
+                flags[email][lab.lab_id][task.task_id] = flag
         return flags
 
     def assign_flags(self, task: Task, flag: str) -> None:
