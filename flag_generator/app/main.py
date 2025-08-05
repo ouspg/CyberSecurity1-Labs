@@ -2,6 +2,9 @@
 Main script for the Flag Generator application.
 """
 
+import json
+import argparse
+
 from app import labs as plugin
 from app.generator import FlagGenerator
 from app.utils.config import get_config
@@ -10,19 +13,74 @@ from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
-email = "student@student.oulu.fi"
+def main(args: argparse.Namespace):
+    """
+    Main script method.
 
-if __name__ == "__main__":
+    Parameters:
+        args (argparse.Namespace): Object storing CLI arguments
+    """
+
+    # discover the plugins
     plugins = discover_plugins(plugin)
     logger.debug(f"Discovered plugins: {plugins}")
 
+    # create all the labs i.e. load the plugins
     labs = create_all_labs(plugins)
     logger.debug(f"Labs created: {labs}")
 
     gen = FlagGenerator(get_config(env_var="secret"), labs)
-    flags = gen.generate_flags(email)
+
+    flags = {}
+    if args.email:
+        flags.update(gen.generate_flags(args.email))
+
+    elif args.file:
+        with open(args.file, 'r') as f:
+            emails = f.readlines()
+
+        for email in emails:
+            flags.update(gen.generate_flags(email.strip()))
 
     logger.info(f"Generated flags: {flags}")
-    for lab in labs:
-        lab.inject_all()
-        logger.info(f"Injected flags for lab {lab.lab_id}")
+
+
+    # If email file is provided it will generate multiple flags for same labs so
+    # inject flags only under normal operation i.e single email passed via `--email` parameter
+    if not args.file:
+        for lab in labs:
+            lab.inject_all()
+            logger.info(f"Injected flags for lab {lab.lab_id}")
+
+    if args.export:
+        logger.info(f"Exporting flags to json to file: {args.export}")
+        with open(args.export, 'w') as f:
+            json.dump(flags, f, indent=2)
+
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(
+        description="Application to generate flags for hacking labs"
+    )
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(
+        "--email",
+        help="User email. These are used to generate dynamic flags"
+    )
+
+    group.add_argument(
+        "--file",
+        help="File with user emails. These are used to generate dynamic flags"
+    )
+
+    parser.add_argument(
+        "--export",
+        help="Exports the generated flags as json"
+    )
+
+    args = parser.parse_args()
+    main(args)
+
+    
