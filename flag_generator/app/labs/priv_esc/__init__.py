@@ -34,8 +34,8 @@ class PATH(Task):
         """
         Inject the PATH task flag.
         """
-        
-        print(f"Injecting PATH flag: {self.get_flag}")
+
+        print(f"Injecting PATH flag: {self.get_flag()}")
 
 
 class CRON(Task):
@@ -52,7 +52,6 @@ class CRON(Task):
         """
 
         print(f"Injecting CRON flag: {self.get_flag()}")
-
 
 
 class SUDO(Task):
@@ -89,33 +88,3 @@ def create_lab() -> Lab:
     PrivEscLab = Lab("priv_esc", tasks)
 
     return PrivEscLab
-
-
-# def group_tasks(flags: dict[str, str]):
-#     """
-#     Group all task injectors for the Privilege Escalation lab.
-#     """
-#     print(flags)
-#     tasks = [
-#         SUID("suid_task"),
-#         PATH("path_task"),
-#         CRON("cron_task"),
-#         SUDO("sudo_task")
-#     ]
-
-#     PrivEscLab = Lab("priv_esc", tasks, flags)
-#     PrivEscLab.inject_all()
-
-
-# def get_lab_data():
-#     """
-#     Get lab data for the Privilege Escalation lab.
-#     """
-#     return {
-#         "priv_esc": [
-#             "suid_task",
-#             "path_task",
-#             "cron_task",
-#             "sudo_task"
-#         ]
-#     }
