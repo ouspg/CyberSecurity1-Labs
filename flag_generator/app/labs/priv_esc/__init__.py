@@ -5,6 +5,10 @@ It defines various privilege escalation tasks and groups them into a lab.
 
 from app.injector import Lab, Task
 
+from app.utils.logger import setup_logger
+
+logger = setup_logger(__name__)
+
 
 class SUID(Task):
     """
@@ -19,7 +23,7 @@ class SUID(Task):
         Inject the SUID task flag.
         """
 
-        print(f"Injecting SUID flag: {self.get_flag()}")
+        logger.debug(f"Injecting SUID flag: {self.get_flag()}")
 
 
 class PATH(Task):
@@ -35,7 +39,7 @@ class PATH(Task):
         Inject the PATH task flag.
         """
 
-        print(f"Injecting PATH flag: {self.get_flag()}")
+        logger.debug(f"Injecting PATH flag: {self.get_flag()}")
 
 
 class CRON(Task):
@@ -51,7 +55,7 @@ class CRON(Task):
         Inject the CRON task flag.
         """
 
-        print(f"Injecting CRON flag: {self.get_flag()}")
+        logger.debug(f"Injecting CRON flag: {self.get_flag()}")
 
 
 class SUDO(Task):
@@ -67,7 +71,7 @@ class SUDO(Task):
         Inject the SUDO task flag.
         """
 
-        print(f"Injecting SUDO flag: {self.get_flag()}")
+        logger.debug(f"Injecting SUDO flag: {self.get_flag()}")
 
 
 def create_lab() -> Lab:

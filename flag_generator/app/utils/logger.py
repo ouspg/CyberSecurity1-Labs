@@ -5,7 +5,7 @@ This module configures the loggers to be used in other modules
 import logging
 from sys import stdout
 
-from app.utils.helpers import get_config
+from app.utils.config import get_config
 
 
 def setup_logger(name: str) -> logging.Logger:
