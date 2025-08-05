@@ -68,6 +68,8 @@ def create_all_labs(plugins) -> List[Lab]:
 def get_config(section: str = "", key: str = "", env_var: str = "") -> str | None:
     """
     Read the config option from the config file.
+    The configs are first read from the config file. If the config section and key
+    are not provided then it tries to read it from the environemnt.
 
     Parameters:
         section (str): Option config file section
