@@ -7,7 +7,7 @@ import hashlib
 import hmac
 from typing import Dict, List
 
-from app.injector import Lab
+from app.injector import Lab, Task
 
 
 class FlagGenerator:
@@ -63,7 +63,7 @@ class FlagGenerator:
 
         Returns:
             Dict[str, Dict[str, str]]: A dictionary where the keys are lab IDs and the values are dictionaries
-                of task IDs and their corresponding flags.
+                of task IDs and their corresponding generated flags.
         """
 
         flags = {}
@@ -71,5 +71,14 @@ class FlagGenerator:
             flags.update({lab.lab_id: {}})
             for task in lab.get_tasks():
                 flag = self.__make_flag(email, lab.lab_id, task.task_id)
+                self.assign_flags(task, flag)
                 flags[lab.lab_id][task.task_id] = flag
         return flags
+
+    def assign_flags(self, task: Task, flag: str) -> None:
+        """
+        Assign generated flags to each task in the labs.
+        This method iterates through all labs and their tasks, injecting the generated flags into each task.
+        """
+
+        task.set_flag(flag)
