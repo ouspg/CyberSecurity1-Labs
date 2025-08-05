@@ -25,8 +25,8 @@ class FlagGenerator:
         
         flags = {}
         for lab_name, tasks in self.labs.items():
-            flags.update({lab_name: []})
+            flags.update({lab_name: {}})
             for task_id in tasks:
                 flag = self.__make_flag(email, lab_name, task_id)
-                flags[lab_name].append((task_id, flag))
+                flags[lab_name][task_id] = flag
         return flags
