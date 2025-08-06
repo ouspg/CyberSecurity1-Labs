@@ -7,8 +7,7 @@ import os
 from configparser import ConfigParser
 from typing import List
 
-CONFIG = None
-
+global CONFIG
 
 def load_configs(config_files: List[str]):
     """
@@ -17,6 +16,7 @@ def load_configs(config_files: List[str]):
     Parameters:
         config_files (List[str]): List of config file locations
     """
+    
 
     CONFIG = ConfigParser()
     for file in config_files:
@@ -41,9 +41,7 @@ def get_config(section: str = "", key: str = "", env_var: str = "") -> str | Non
     config_value = None
 
     if section and key:
-        config = ConfigParser()
-        config.read(os.path.dirname(__file__) + "/../config.ini")
-        config_value = config[section][key]
+        config_value = CONFIG[section][key]
     else:
         config_value = os.environ.get(env_var)
 
