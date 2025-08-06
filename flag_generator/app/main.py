@@ -7,8 +7,9 @@ import json
 
 from app import labs as plugin
 from app.generator import FlagGenerator
-from app.utils.config import get_config
-from app.utils.helpers import create_all_labs, discover_plugins
+from app.utils.config import get_config, load_configs
+from app.utils.helpers import (create_all_labs, discover_plugins,
+                               load_all_configs)
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -25,6 +26,9 @@ def main(args: argparse.Namespace):
     # discover the plugins
     plugins = discover_plugins(plugin)
     logger.debug(f"Discovered plugins: {plugins}")
+
+    # load config files
+    load_all_configs(plugins)
 
     # create all the labs i.e. load the plugins
     labs = create_all_labs(plugins)
