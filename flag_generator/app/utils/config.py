@@ -7,16 +7,19 @@ import os
 from configparser import ConfigParser
 from typing import List
 
-global CONFIG
+CONFIG = None
+
 
 def load_configs(config_files: List[str]):
     """
-    Loads multiple config files into a single config object
+    Loads multiple config files into a single config object.
+    Sets a global config variable to store config values globally
 
     Parameters:
         config_files (List[str]): List of config file locations
     """
-    
+
+    global CONFIG
 
     CONFIG = ConfigParser()
     for file in config_files:
