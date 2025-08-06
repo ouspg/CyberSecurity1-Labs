@@ -3,14 +3,17 @@ This package contains the Privilege Escalation lab for the Flag Generator applic
 It defines various privilege escalation tasks and groups them into a lab.
 """
 
+import docker
 from app.injector import Lab, Task
+from app.utils.config import get_config
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
-import docker
 
 client = docker.from_env()
+
+
 class SUID(Task):
     """
     SUID task for privilege escalation.
@@ -22,11 +25,16 @@ class SUID(Task):
     def inject(self):
         """
         Inject the SUID task flag.
+        The flag is injected by echoing the flag content into a flag file inside the docker container.
         """
-        container = client.containers.get('system2')
-        container.exec_run(f"sh -c 'echo {self.get_flag()} > /home/devops_venla/flag1.txt'")
-        container.exec_run(f"sh -c 'chown devops_venla:devops_venla /home/devops_venla/flag1.txt'")
-        container.exec_run(f"sh -c 'chmod 640 /home/devops_venla/flag1.txt'")
+
+        container = client.containers.get(get_config("suid", "container_name"))
+        container.exec_run(
+            f"sh -c 'echo {self.get_flag()} > {get_config("suid", "flag_location")}'")
+        container.exec_run(
+            f"sh -c 'chown {get_config("suid", "user")}:{get_config("suid", "group")} {get_config("suid", "flag_location")}'")
+        container.exec_run(
+            f"sh -c 'chmod 640 {get_config("suid", "flag_location")}'")
         logger.debug(f"Injecting SUID flag: {self.get_flag()}")
 
 
