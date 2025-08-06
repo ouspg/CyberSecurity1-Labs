@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--export",
-        help="Exports the generated flags as json"
+        help="Exports the generated flags as json to file provided"
     )
 
     args = parser.parse_args()
