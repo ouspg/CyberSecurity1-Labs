@@ -50,7 +50,14 @@ class PATH(Task):
         """
         Inject the PATH task flag.
         """
-
+        container = client.containers.get(get_config("path", "container_name"))
+        container.exec_run(
+            f"sh -c 'echo {self.get_flag()} > {get_config("path", "flag_location")}'")
+        container.exec_run(
+            f"sh -c 'chown {get_config("path", "user")}:{get_config("path", "group")} {get_config("path", "flag_location")}'")
+        container.exec_run(
+            f"sh -c 'chmod 640 {get_config("path", "flag_location")}'")
+    
         logger.debug(f"Injecting PATH flag: {self.get_flag()}")
 
 
