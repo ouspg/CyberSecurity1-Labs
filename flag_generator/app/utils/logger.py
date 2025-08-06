@@ -27,7 +27,8 @@ def setup_logger(name: str) -> logging.Logger:
 
     # console handler with formatting
     handler = logging.StreamHandler(stream=stdout)
-    handler.setLevel(get_config("logging", "level"))
+    # log level is loaded from env as config is not read yet
+    handler.setLevel(get_config(env_var="LOG_LEVEL"))
     formatter = logging.Formatter(
         "(%(asctime)s) [%(levelname)s] -- %(name)s: %(message)s")
     handler.setFormatter(formatter)
