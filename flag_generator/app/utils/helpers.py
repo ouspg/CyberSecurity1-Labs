@@ -4,8 +4,8 @@ Flag Generator Application.
 """
 
 import importlib
-import os
 import pkgutil
+from pathlib import Path
 from typing import Dict, Iterator, List
 
 from app.injector import Lab
@@ -78,8 +78,8 @@ def load_all_configs(plugins: Dict[str, pkgutil.ModuleInfo]):
     """
 
     configs = []
-    configs.append(os.path.dirname(__file__) +
-                   "/../config.ini")  # global config
+    configs.append(Path(__file__).parent.parent.joinpath(
+        "config.ini"))  # global config
     for p in plugins.values():  # module level configs
-        configs.append(os.path.dirname(p.__file__) + "/config.ini")
+        configs.append(Path(p.__file__).parent.joinpath("config.ini"))
     load_configs(configs)
