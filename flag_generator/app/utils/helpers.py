@@ -4,10 +4,12 @@ Flag Generator Application.
 """
 
 import importlib
+import os
 import pkgutil
 from typing import Dict, Iterator, List
 
 from app.injector import Lab
+from app.utils.config import load_configs
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -64,3 +66,20 @@ def create_all_labs(plugins) -> List[Lab]:
                 f"Created lab: {lab.lab_id} with tasks: {[task.task_id for task in lab.get_tasks()]}")
 
     return labs
+
+
+def load_all_configs(plugins: Dict[str, pkgutil.ModuleInfo]):
+    """
+    Loads the global and module level config files.
+
+    Parameters:
+        Dict[str, pkgutil.ModuleInfo]: A dictionary of plugins where the keys are
+            plugin names and the values are the corresponding module objects.
+    """
+
+    configs = []
+    configs.append(os.path.dirname(__file__) +
+                   "/../config.ini")  # global config
+    for p in plugins.values():  # module level configs
+        configs.append(os.path.dirname(p.__file__) + "/config.ini")
+    load_configs(configs)
