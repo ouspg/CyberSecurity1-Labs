@@ -5,6 +5,22 @@ the appropriate config
 
 import os
 from configparser import ConfigParser
+from typing import List
+
+CONFIG = None
+
+
+def load_configs(config_files: List[str]):
+    """
+    Loads multiple config files into a single config object
+
+    Parameters:
+        config_files (List[str]): List of config file locations
+    """
+
+    CONFIG = ConfigParser()
+    for file in config_files:
+        CONFIG.read(file)
 
 
 def get_config(section: str = "", key: str = "", env_var: str = "") -> str | None:
