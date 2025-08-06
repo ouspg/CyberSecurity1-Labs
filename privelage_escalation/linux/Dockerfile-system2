@@ -79,6 +79,7 @@ COPY ./configs/sudoers /etc/sudoers
 RUN chmod 440 /etc/sudoers
 
 # --- Dummy flags for each user ---
+# TODO: remove dummy flags
 RUN echo "Flag1" > /home/devops_venla/flag1.txt && \
     chown devops_venla:devops_venla /home/devops_venla/flag1.txt && \
     chmod 640 /home/devops_venla/flag1.txt
