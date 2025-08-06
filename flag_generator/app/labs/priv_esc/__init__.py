@@ -4,12 +4,13 @@ It defines various privilege escalation tasks and groups them into a lab.
 """
 
 from app.injector import Lab, Task
-
 from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
+import docker
 
+client = docker.from_env()
 class SUID(Task):
     """
     SUID task for privilege escalation.
@@ -22,7 +23,10 @@ class SUID(Task):
         """
         Inject the SUID task flag.
         """
-
+        container = client.containers.get('system2')
+        container.exec_run(f"sh -c 'echo {self.get_flag()} > /home/devops_venla/flag1.txt'")
+        container.exec_run(f"sh -c 'chown devops_venla:devops_venla /home/devops_venla/flag1.txt'")
+        container.exec_run(f"sh -c 'chmod 640 /home/devops_venla/flag1.txt'")
         logger.debug(f"Injecting SUID flag: {self.get_flag()}")
 
 
