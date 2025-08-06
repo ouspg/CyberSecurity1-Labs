@@ -74,6 +74,14 @@ class CRON(Task):
         Inject the CRON task flag.
         """
 
+        container = client.containers.get(get_config("cron", "container_name"))
+        container.exec_run(
+            f"sh -c 'echo {self.get_flag()} > {get_config("cron", "flag_location")}'")
+        container.exec_run(
+            f"sh -c 'chown {get_config("cron", "user")}:{get_config("cron", "group")} {get_config("cron", "flag_location")}'")
+        container.exec_run(
+            f"sh -c 'chmod 640 {get_config("cron", "flag_location")}'")
+        
         logger.debug(f"Injecting CRON flag: {self.get_flag()}")
 
 
@@ -89,6 +97,10 @@ class SUDO(Task):
         """
         Inject the SUDO task flag.
         """
+
+        container = client.containers.get(get_config("sudo", "container_name"))
+        container.exec_run(
+            f"sh -c 'echo {self.get_flag()} > {get_config("sudo", "flag_location")}'")
 
         logger.debug(f"Injecting SUDO flag: {self.get_flag()}")
 
