@@ -34,7 +34,7 @@ def main(args: argparse.Namespace):
     labs = create_all_labs(plugins)
     logger.debug(f"Labs created: {labs}")
 
-    gen = FlagGenerator(get_config(env_var="secret"), labs)
+    gen = FlagGenerator(get_config("app", "secret", "SECRET"), labs)
 
     flags = {}
     if args.email:
