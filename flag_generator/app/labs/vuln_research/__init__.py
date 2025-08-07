@@ -3,8 +3,6 @@ This package contains the Vulnerability Research lab for the Flag Generator appl
 It defines various Vulnerability Research tasks and groups them into a lab.
 """
 
-import os
-
 import docker
 from app.injector import Lab, Task
 from app.utils.config import get_config
@@ -92,10 +90,11 @@ class TicketContent(Task):
         # replace the placeholder flag
         mysql_command = mysql_command.replace("FLAG{}", self.get_flag())
 
-         # insert the flag into the container
+        # insert the flag into the container
         container = client.containers.get(
             get_config("ticket_content_task", "container_name"))
         container.exec_run(f"{mysql_command}")
+
 
 def create_lab() -> Lab:
     """
