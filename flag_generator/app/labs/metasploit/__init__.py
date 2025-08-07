@@ -100,14 +100,14 @@ class TaskFour(Task):
             content = f.read()
 
         content = content.replace(get_config(
-            "task_four", "palceholder_flag"), self.get_flag())
+            "task_four", "placeholder_flag"), self.get_flag())
 
-        with open(get_config("task_four", "sniffer_location"), "r") as f:
+        with open(get_config("task_four", "sniffer_location"), "w") as f:
             f.write(content)
 
         # build the container again
         os.system(
-            f"docker compose up -f {get_config('task_four', 'compose_file_location')} -d --build")
+            f"docker compose -f {get_config('task_four', 'compose_file_location')} up  -d --build")
 
 
 def create_lab() -> Lab:
@@ -119,11 +119,12 @@ def create_lab() -> Lab:
         Lab: An instance of the Lab class containing the Metasploit tasks.
     """
 
+    # task four should be injected first as it rebuilds the image
     tasks = [
         TaskOne("one_task"),
         TaskTwo("two_task"),
-        TaskThree("three_task"),
-        TaskFour("four_task")
+        TaskFour("four_task"),
+        TaskThree("three_task")
     ]
     MetasploitLab = Lab("metasploit", tasks)
 
