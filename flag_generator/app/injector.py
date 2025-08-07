@@ -17,17 +17,19 @@ class Task(ABC):
         __flag (str): The flag for the task, which is private and should be set through the `set_flag` method.
     """
 
-    def __init__(self, task_id: str, flag: str = ''):
+    def __init__(self, task_id: str, flag: str = '', flag_type: str = 'dynamic'):
         """
         Initialize the task with a task ID and an optional flag.
 
         Parameters:
             task_id (str): Identifier for the task.
             flag (str): Optional flag for the task.
+            flag_type (str): Type of flag. Could be `dynamic` or `static`
         """
 
         self.task_id = task_id
         self.__flag = flag
+        self.flag_type = flag_type
 
     @abstractmethod
     def inject(self):
