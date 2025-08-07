@@ -3,15 +3,17 @@ This package contains the Metasploit lab for the Flag Generator application.
 It defines various Metasploit tasks and groups them into a lab.
 """
 
+import os
+
+import docker
 from app.injector import Lab, Task
 from app.utils.config import get_config
-import docker
 from app.utils.logger import setup_logger
-import os
 
 logger = setup_logger(__name__)
 
 client = docker.from_env()
+
 
 class TaskOne(Task):
     """
@@ -19,9 +21,10 @@ class TaskOne(Task):
     This task invovles identifying the service name/version running on the lab port.
     """
 
-    def __init__(self, task_id: str, flag_type: str = "static"):
-        super().init(task_id, flag_type)
-    
+    def __init__(self, task_id: str, flag_type='static'):
+        super().__init__(task_id=task_id, flag_type=flag_type)
+        self.set_flag(get_config("task_one", "service_version"))
+
     def inject(self):
         """
         Inject the flag for this task.
@@ -29,7 +32,8 @@ class TaskOne(Task):
         involved
         """
 
-        self.set_flag(get_config("task_one", "service_version"))
+        pass
+
 
 class TaskTwo(Task):
     """
@@ -39,8 +43,9 @@ class TaskTwo(Task):
     """
 
     def __init__(self, task_id: str, flag_type: str = "static"):
-        super().init(task_id, flag_type)
-    
+        super().__init__(task_id=task_id, flag_type=flag_type)
+        self.set_flag(get_config("task_two", "cve"))
+
     def inject(self):
         """
         Inject the flag for this task.
@@ -48,7 +53,8 @@ class TaskTwo(Task):
         involved
         """
 
-        self.set_flag(get_config("task_two", "cve"))
+        pass
+
 
 class TaskThree(Task):
     """
@@ -58,18 +64,20 @@ class TaskThree(Task):
     """
 
     def __init__(self, task_id: str):
-        super().init(task_id)
-    
+        super().__init__(task_id)
+
     def inject(self):
         """
         Inject the flag for this task.
         Since the service name/version is static, there is no actual injection logic
         involved
         """
-        container = client.containers.get(get_config("task_three", "container_name"))
+        container = client.containers.get(
+            get_config("task_three", "container_name"))
         container.exec_run(
             f"sh -c 'echo {self.get_flag()} > {get_config("task_three", "flag_location")}'")
-        
+
+
 class TaskFour(Task):
     """
     Second task for the lab.
@@ -78,8 +86,8 @@ class TaskFour(Task):
     """
 
     def __init__(self, task_id: str):
-        super().init(task_id)
-    
+        super().__init__(task_id)
+
     def inject(self):
         """
         Inject the flag for this task.
@@ -90,18 +98,33 @@ class TaskFour(Task):
         # replace embeded flag in the binary
         with open(get_config("task_four", "sniffer_location"), "r") as f:
             content = f.read()
-        
-        content = content.replace(get_config("task_four", "palceholder_flag"), self.get_flag())
+
+        content = content.replace(get_config(
+            "task_four", "palceholder_flag"), self.get_flag())
 
         with open(get_config("task_four", "sniffer_location"), "r") as f:
             f.write(content)
-        
+
         # build the container again
-        os.system(f"docker compose up -f {get_config('task_four', 'compose_file_location')} -d --build")
+        os.system(
+            f"docker compose up -f {get_config('task_four', 'compose_file_location')} -d --build")
 
 
-        
-           
+def create_lab() -> Lab:
+    """
+    Create the Metasploit lab with its tasks.
+    This function initializes the lab with the defined tasks and returns it.
 
+    Returns:
+        Lab: An instance of the Lab class containing the Metasploit tasks.
+    """
 
-        
+    tasks = [
+        TaskOne("one_task"),
+        TaskTwo("two_task"),
+        TaskThree("three_task"),
+        TaskFour("four_task")
+    ]
+    MetasploitLab = Lab("metasploit", tasks)
+
+    return MetasploitLab
