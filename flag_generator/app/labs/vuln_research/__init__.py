@@ -15,15 +15,14 @@ logger = setup_logger(__name__)
 client = docker.from_env()
 
 
-class TaskOne(Task):
+class ServiceName(Task):
     """
-    First task for the lab.
-    This task invovles identifying the service namerunning on the lab port.
+    This task invovles identifying the service name running on the lab port.
     """
 
     def __init__(self, task_id: str, flag_type='static'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("vuln_task_one", "service_name"))
+        self.set_flag(get_config("service_name_task", "service_name"))
 
     def inject(self):
         """
@@ -35,15 +34,14 @@ class TaskOne(Task):
         pass
 
 
-class TaskTwo(Task):
+class ServiceVersion(Task):
     """
-    First task for the lab.
     This task invovles identifying the service version running on the lab port.
     """
 
     def __init__(self, task_id: str, flag_type='static'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("vuln_task_two", "service_version"))
+        self.set_flag(get_config("service_version_task", "service_version"))
 
     def inject(self):
         """
@@ -55,32 +53,30 @@ class TaskTwo(Task):
         pass
 
 
-class TaskThree(Task):
+class AuthBypassCVE(Task):
     """
-    Third task for the lab.
     This task invovles identifying the CVE that allows authentication bypass
     into the target.
     """
 
     def __init__(self, task_id: str, flag_type: str = "static"):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("vuln_task_three", "cve"))
+        self.set_flag(get_config("cve_task", "cve"))
 
     def inject(self):
         """
         Inject the flag for this task.
-        Since the service name/version is static, there is no actual injection logic
+        Since the cve is static, there is no actual injection logic
         involved
         """
 
         pass
 
 
-class TaskFour(Task):
+class TicketContent(Task):
     """
-    Fourth task for the lab.
-    This task invlves finding a specific value in a MYSQL database.
-    Flag is injected into the database.
+    This task invlves finding a specific ticket value in a MYSQL database.
+    The flag is injected into the database by executing an INSERT query.
     """
 
     def __init__(self, task_id: str):
@@ -88,9 +84,9 @@ class TaskFour(Task):
 
     def inject(self):
         mysql_command = (
-            f'mysql -u {get_config("vuln_task_four", "mysql_user")} -p{get_config("vuln_task_four", "mysql_password")} '
-            f'-e "INSERT INTO {get_config("vuln_task_four", "table")} ({get_config("vuln_task_four", "table_columns")}) '
-            f'VALUES ({get_config("vuln_task_four", "values")});"'
+            f'mysql -u {get_config("ticket_content_task", "mysql_user")} -p{get_config("ticket_content_task", "mysql_password")} '
+            f'-e "INSERT INTO {get_config("ticket_content_task", "table")} ({get_config("ticket_content_task", "table_columns")}) '
+            f'VALUES ({get_config("ticket_content_task", "values")});"'
         )
 
         # replace the placeholder flag
@@ -98,7 +94,7 @@ class TaskFour(Task):
 
          # insert the flag into the container
         container = client.containers.get(
-            get_config("vuln_task_four", "container_name"))
+            get_config("ticket_content_task", "container_name"))
         container.exec_run(f"{mysql_command}")
 
 def create_lab() -> Lab:
@@ -111,10 +107,10 @@ def create_lab() -> Lab:
     """
 
     tasks = [
-        TaskOne("one_task"),
-        TaskTwo("two_task"),
-        TaskThree("three_task"),
-        TaskFour("four_task")
+        ServiceName("service_name"),
+        ServiceVersion("service_version"),
+        AuthBypassCVE("auth_bypass_cve"),
+        TicketContent("ticket_content")
     ]
     VulnResearch = Lab("vuln_research", tasks)
 
