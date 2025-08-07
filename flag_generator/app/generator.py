@@ -66,16 +66,20 @@ class FlagGenerator:
                 of task IDs and their corresponding generated flags.
         """
 
-        flags = {}
+        flags = {email: {}}
         for lab in self.labs:
-            flags.update({email: {lab.lab_id: {}}})
+            flags[email].update({lab.lab_id: {}})
             for task in lab.get_tasks():
+
                 if task.flag_type == "dynamic":
                     flag = self.__make_flag(email, lab.lab_id, task.task_id)
                     self.assign_flags(task, flag)
+
                 elif task.flag_type == "static":
                     flag = task.get_flag()
+
                 flags[email][lab.lab_id][task.task_id] = flag
+
         return flags
 
     def assign_flags(self, task: Task, flag: str) -> None:
