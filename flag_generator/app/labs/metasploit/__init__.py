@@ -19,8 +19,8 @@ class TaskOne(Task):
     This task invovles identifying the service name/version running on the lab port.
     """
 
-    def __init__(self, task_id: str):
-        super().init(task_id)
+    def __init__(self, task_id: str, flag_type: str = "static"):
+        super().init(task_id, flag_type)
     
     def inject(self):
         """
@@ -38,8 +38,8 @@ class TaskTwo(Task):
     into the target.
     """
 
-    def __init__(self, task_id: str):
-        super().init(task_id)
+    def __init__(self, task_id: str, flag_type: str = "static"):
+        super().init(task_id, flag_type)
     
     def inject(self):
         """
@@ -53,8 +53,8 @@ class TaskTwo(Task):
 class TaskThree(Task):
     """
     Second task for the lab.
-    This task invovles identifying the CVE that allows remote code execution
-    into the target.
+    This task invovles gaining remote access to the system. Flag is injecting
+    by echoing flag content to flag file
     """
 
     def __init__(self, task_id: str):
@@ -73,8 +73,8 @@ class TaskThree(Task):
 class TaskFour(Task):
     """
     Second task for the lab.
-    This task invovles identifying the CVE that allows remote code execution
-    into the target.
+    This task involves creating a meterpreter session. Flag is injected by modifying
+    embeded flag in binary that detects meterpreter session and reveals flag
     """
 
     def __init__(self, task_id: str):
