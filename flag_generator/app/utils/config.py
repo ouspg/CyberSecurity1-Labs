@@ -45,7 +45,7 @@ def get_config(section: str = "", key: str = "", env_var: str = "") -> str | Non
 
     try:
         config_value = CONFIG[section][key]
-    except KeyError:
+    except:
         config_value = os.environ.get(env_var)
 
     return config_value
