@@ -26,3 +26,22 @@ class TaskOne(Task):
         """
 
         self.set_flag(get_config("task_one", "service_version"))
+
+class TaskTwo(Task):
+    """
+    Second task for the lab.
+    This task invovles identifying the CVE that allows remote code execution
+    into the target.
+    """
+
+    def __init__(self, task_id: str):
+        super().init(task_id)
+    
+    def inject(self):
+        """
+        Inject the flag for this task.
+        Since the service name/version is static, there is no actual injection logic
+        involved
+        """
+
+        self.set_flag(get_config("task_two", "cve"))
