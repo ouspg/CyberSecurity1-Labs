@@ -87,20 +87,19 @@ class TaskFour(Task):
         super().__init__(task_id)
 
     def inject(self):
-
-        sql_query = get_config("vuln_task_four", "mysql_query")
-        print(f'query is {sql_query}')
+        mysql_command = (
+            f'mysql -u {get_config("vuln_task_four", "mysql_user")} -p{get_config("vuln_task_four", "mysql_password")} '
+            f'-e "INSERT INTO {get_config("vuln_task_four", "table")} ({get_config("vuln_task_four", "table_columns")}) '
+            f'VALUES ({get_config("vuln_task_four", "values")});"'
+        )
 
         # replace the placeholder flag
-        sql_query.replace("FLAG{}", self.get_flag())
+        mysql_command = mysql_command.replace("FLAG{}", self.get_flag())
 
-        sql_command = f"mysql -u {get_config("vuln_task_four", "mysql_user")} -p{get_config("vuln_task_four", "mysql_password")} -e \'{sql_query}\'"
-
-        # insert the flag into the container
+         # insert the flag into the container
         container = client.containers.get(
             get_config("vuln_task_four", "container_name"))
-        container.exec_run(f"{sql_command}")
-
+        container.exec_run(f"{mysql_command}")
 
 def create_lab() -> Lab:
     """
