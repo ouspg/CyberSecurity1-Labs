@@ -26,16 +26,16 @@ def load_configs(config_files: List[str]):
         CONFIG.read(file)
 
 
-def get_config(section: str, key: str, env_var: str) -> str | None:
+def get_config(section: str = "", key: str = "", env_var: str = "") -> str | None:
     """
     Read the config option from the config file.
     The configs are first read from the config file. If the config section and key
-    do not exist then it tries to read it from the environemnt.
+    are not provided then it tries to read it from the environemnt.
 
     Parameters:
-        section (str): config file section
-        key (str): config file key
-        env_var (str): environment variable
+        section (str): Option config file section
+        key (str): Optional config file key
+        env_var (str): Optional environment variable
 
     Returns:
         (str | None): The config value or None if no config sepcified
