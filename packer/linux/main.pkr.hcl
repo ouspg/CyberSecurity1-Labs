@@ -45,6 +45,11 @@ source "vmware-iso" "ubuntusrv22" {
 build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
+  provisioner "file" {
+    source      = "../configs/firsboot.service"
+    destination = "/etc/systemd/system/firstboot.service"
+  }
+
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
@@ -62,5 +67,9 @@ build {
   provisioner "file" {
     source      = "../../privelage_escalation/linux/"
     destination = "/labs/priv_esc"
+  }
+  provisioner "file" {
+    source      = "../../web/"
+    destination = "/labs/web"
   }
 }
