@@ -66,11 +66,13 @@ launchDockerCompose() {
     fi
 }
 
-generateFlags() {
-    # Generates dynamic flags for the labs
-    # This could be done by creating files, setting environment variables, etc.
-    # For now, it just echoes message
-    echo "Generating flags..."
+generatAndInjectFlags() {
+    # Generates  and injects dynamic flags for the labs
+    source /opt/venv/bin/activate
+    export LOG_LEVEL="DEBUG"
+    export SECRET=
+
+    python3 -m app.main --email $STUDENT_EMAIL
 
 }
 
