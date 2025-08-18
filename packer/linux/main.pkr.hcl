@@ -47,12 +47,12 @@ build {
 
   provisioner "file" {
     source      = "./configs/firstboot.service"
-    destination = "/etc/systemd/system/firstboot.service"
+    destination = "/tmp/firstboot.service"
   }
 
   provisioner "file" {
     source      = "./scripts/firstboot.sh"
-    destination = "/usr/local/bin/firstboot.sh"
+    destination = "/tmp/firstboot.sh"
   }
 
   provisioner "shell" {
