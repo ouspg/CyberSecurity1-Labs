@@ -50,7 +50,11 @@ launchDockerCompose() {
     # Start the Docker Compose services for the labs
     echo "Setting up the lab environment..."
 
-    # docker compose -f /labs/vuln_research/docker-compose.yml up -d
+    docker compose -f /labs/vuln_research/docker-compose.yml up -d &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "${bold}${green}[  OK  ]${reset}   Vulnerability Research lab is up and running!"
+    fi
+
     docker compose -f /labs/metasploit/docker-compose.yml up -d &> /dev/null
     if [ $? -eq 0 ]; then
         echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
@@ -91,8 +95,9 @@ cleanup() {
 }
 
 setup() {
-    clear
     # Sets up the lab environment by calling the necessary functions
+
+    clear
     getStudentEmail
 
     clear
