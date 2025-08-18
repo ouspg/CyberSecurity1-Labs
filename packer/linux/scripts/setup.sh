@@ -23,3 +23,7 @@ apt-get install docker-ce -y docker-ce-cli containerd.io docker-buildx-plugin do
 mkdir -p /labs/vuln_research /labs/metasploit /labs/priv_esc /labs/web
 
 sudo chown -R ubuntu:ubuntu /labs
+
+# setup firstboot service
+chmod +x /usr/local/bin/firstboot.sh
+systemctl enable firstboot.service
