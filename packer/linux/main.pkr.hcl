@@ -58,7 +58,7 @@ build {
     destination = "/tmp"
   }
   provisioner "file" {
-    source      = "../../web/juice_shop.tar"
+    source      = "../../web/juice-shop.tar"
     destination = "/tmp/juice_shop.tar"
   }
   provisioner "shell" {
