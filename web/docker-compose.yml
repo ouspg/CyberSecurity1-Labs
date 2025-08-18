@@ -7,8 +7,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=juice-shop-config
-      - EMAIL=<student email here>
+      - EMAIL=${STUDENT_EMAIL}
       - LAB_ID=web_hacking
-      - CTF_KEY=<secret key here>
+      - CTF_KEY=${SECRET}
     volumes:
       - /labs/web/juice-shop-config.yml:/juice-shop/config/juice-shop-config.yml
