@@ -4,6 +4,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mysql
+    container_name: vuln_research
     ports:
       - "3306:3306"
