@@ -37,3 +37,6 @@ mv /tmp/app/ /usr/lib/python3.12/app
 python3 -m venv /opt/venv
 source /opt/venv/bin/activate
 pip3 install -r /usr/lib/python3.12/app/requirements.txt
+
+# load custom juice shop image
+docker image load --input /tmp/juice_shop.tar

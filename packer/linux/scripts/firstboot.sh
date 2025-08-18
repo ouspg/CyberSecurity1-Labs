@@ -65,7 +65,6 @@ launchDockerCompose() {
         echo "${bold}${green}[  OK  ]${reset}   Privilege Escalation lab is up and running!"
     fi
 
-    docker image load --input /var/juice_shop.tar
     docker compose -f /labs/web/docker-compose.yml up -d &> /dev/null
     if [ $? -eq 0 ]; then
         echo "${bold}${green}[  OK  ]${reset}   Web Hacking lab is up and running!"
