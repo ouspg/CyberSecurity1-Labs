@@ -57,6 +57,10 @@ build {
     source      = "../../flag_generator/"
     destination = "/tmp"
   }
+  provisioner "file" {
+    source      = "../../web/juice_shop.tar"
+    destination = "/tmp/juice_shop.tar"
+  }
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
