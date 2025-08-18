@@ -55,6 +55,11 @@ build {
     destination = "/tmp/firstboot.sh"
   }
 
+  provisioner "file" {
+    source      = "../../flag_generator/app/"
+    destination = "/tmp/app"
+  }
+
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
