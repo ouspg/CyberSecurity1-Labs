@@ -46,12 +46,12 @@ build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
   provisioner "file" {
-    source      = "../configs/firsboot.service"
+    source      = "./configs/firstboot.service"
     destination = "/etc/systemd/system/firstboot.service"
   }
 
   provisioner "file" {
-    source      = "../scripts/firsboot.sh"
+    source      = "./scripts/firstboot.sh"
     destination = "/usr/local/bin/firstboot.sh"
   }
 
