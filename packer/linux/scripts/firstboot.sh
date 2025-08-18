@@ -111,6 +111,8 @@ setup() {
 
     launchDockerCompose
 
+    generatAndInjectFlags
+
     cleanup
 }
 #unbind the interrupt key
