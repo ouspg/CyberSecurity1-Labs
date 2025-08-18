@@ -8,14 +8,15 @@ from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
+
 class Robots(Task):
     """
     This task involves identifying the flag from the robots.txt file.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -23,15 +24,16 @@ class Robots(Task):
         """
 
         pass
+
 
 class ScoreBoard(Task):
     """
     This task involves finding the hidden scoreboard.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -39,15 +41,16 @@ class ScoreBoard(Task):
         """
 
         pass
+
 
 class DOMXSS(Task):
     """
     This task involves completing the DOM XSS challenge.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -55,15 +58,16 @@ class DOMXSS(Task):
         """
 
         pass
+
 
 class ConfidentialDocument(Task):
     """
     This task involves acessing a confidential document from the `ftp` directory.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -71,15 +75,16 @@ class ConfidentialDocument(Task):
         """
 
         pass
+
 
 class BruteForce(Task):
     """
     This task involves logging in with the admin account.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -87,15 +92,16 @@ class BruteForce(Task):
         """
 
         pass
+
 
 class ViewBasket(Task):
     """
     This task exploiting an IDOR vulnerability to view another users basket.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -103,15 +109,16 @@ class ViewBasket(Task):
         """
 
         pass
+
 
 class UserCredentials(Task):
     """
     This task exploiting SQL injection vulnerability to get all user credentials.
     """
 
-    def __init__(self, task_id: str, flag_type = 'dynamic'):
+    def __init__(self, task_id: str, flag_type='dynamic'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-    
+
     def inject(self):
         """
         Since the Juice Shop app has its own flag mechanism, no
@@ -119,6 +126,7 @@ class UserCredentials(Task):
         """
 
         pass
+
 
 def create_lab() -> Lab:
     """
@@ -130,7 +138,7 @@ def create_lab() -> Lab:
     """
 
     # the task ids must not be changed as they are synchorized
-    # with the juice shop app. If you change it here, you also need to change 
+    # with the juice shop app. If you change it here, you also need to change
     # it in juice shop
     tasks = [
         Robots("robotsChallenge"),
