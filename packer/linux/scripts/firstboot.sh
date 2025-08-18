@@ -8,6 +8,10 @@ green="$(tput setaf 2)"
 yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
 
+# setting enivronment variables to be used during setup
+export LOG_LEVEL="DEBUG"
+export SECRET="<secret here>"
+
 banner() {
     # This function prints a banner to the terminal.
     
@@ -74,9 +78,6 @@ launchDockerCompose() {
 generatAndInjectFlags() {
     # Generates  and injects dynamic flags for the labs
     source /opt/venv/bin/activate
-    export LOG_LEVEL="DEBUG"
-    export SECRET=
-
     python3 -m app.main --email $STUDENT_EMAIL
 
 }
