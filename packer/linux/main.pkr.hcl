@@ -49,17 +49,14 @@ build {
     source      = "./configs/firstboot.service"
     destination = "/tmp/firstboot.service"
   }
-
   provisioner "file" {
     source      = "./scripts/firstboot.sh"
     destination = "/tmp/firstboot.sh"
   }
-
   provisioner "file" {
     source      = "../../flag_generator/"
     destination = "/tmp"
   }
-
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
