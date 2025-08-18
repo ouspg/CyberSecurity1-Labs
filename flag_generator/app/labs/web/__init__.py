@@ -119,3 +119,28 @@ class UserCredentials(Task):
         """
 
         pass
+
+def create_lab() -> Lab:
+    """
+    Create the Web Hacking lab with its tasks.
+    This function initializes the lab with the defined tasks and returns it.
+
+    Returns:
+        Lab: An instance of the Lab class containing the Metasploit tasks.
+    """
+
+    # the task ids must not be changed as they are synchorized
+    # with the juice shop app. If you change it here, you also need to change 
+    # it in juice shop
+    tasks = [
+        Robots("robotsChallenge"),
+        ScoreBoard("scoreBoardChallenge"),
+        DOMXSS("localXssChallenge"),
+        ConfidentialDocument("directoryListingChallenge"),
+        BruteForce("weakPasswordChallenge"),
+        ViewBasket("basketAccessChallenge"),
+        UserCredentials("unionSqlInjectionChallenge")
+    ]
+    WebHacking = Lab("web_hacking", tasks)
+
+    return WebHacking
