@@ -8,6 +8,10 @@ green="$(tput setaf 2)"
 yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
 
+# setting enivronment variables to be used during setup
+export LOG_LEVEL="DEBUG"
+export SECRET="<secret here>"
+
 banner() {
     # This function prints a banner to the terminal.
     
@@ -35,7 +39,7 @@ getStudentEmail() {
     # Run the loop until a valid email is entered
     while [ $exitstatus != 0 ]
     do
-        STUDENT_EMAIL=$(whiptail --inputbox "Enter your email address:" 8 39 student@studnent.oulu.fi --title "Labs Setup" 3>&1 1>&2 2>&3)
+        STUDENT_EMAIL=$(whiptail --inputbox "Enter your email address:" 8 39 student@student.oulu.fi --title "Labs Setup" 3>&1 1>&2 2>&3)
         # A trick to swap stdout and stderr.
         # Again, you can pack this inside if, but it seems really long for some 80-col terminal users.
         exitstatus=$?
@@ -50,7 +54,11 @@ launchDockerCompose() {
     # Start the Docker Compose services for the labs
     echo "Setting up the lab environment..."
 
-    # docker compose -f /labs/vuln_research/docker-compose.yml up -d
+    docker compose -f /labs/vuln_research/docker-compose.yml up -d &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "${bold}${green}[  OK  ]${reset}   Vulnerability Research lab is up and running!"
+    fi
+
     docker compose -f /labs/metasploit/docker-compose.yml up -d &> /dev/null
     if [ $? -eq 0 ]; then
         echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
@@ -60,21 +68,18 @@ launchDockerCompose() {
     if [ $? -eq 0 ]; then
         echo "${bold}${green}[  OK  ]${reset}   Privilege Escalation lab is up and running!"
     fi
+
+    docker compose -f /labs/web/docker-compose.yml up -d &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "${bold}${green}[  OK  ]${reset}   Web Hacking lab is up and running!"
+    fi
 }
 
-generateFlags() {
-    # Generates dynamic flags for the labs
-    # This could be done by creating files, setting environment variables, etc.
-    # For now, it just echoes message
-    echo "Generating flags..."
+generatAndInjectFlags() {
+    # Generates  and injects dynamic flags for the labs
+    source /opt/venv/bin/activate
+    python3 -m app.main --email $STUDENT_EMAIL
 
-}
-
-injectFlags() {
-    # Injects the generated flags into the lab environment
-    # This could be done by copying files, setting environment variables, etc.
-    # For now, it just echoes a message
-    echo "Flags injected successfully."
 }
 
 cleanup() {
@@ -91,8 +96,9 @@ cleanup() {
 }
 
 setup() {
-    clear
     # Sets up the lab environment by calling the necessary functions
+
+    clear
     getStudentEmail
 
     clear
@@ -104,6 +110,8 @@ setup() {
     export STUDENT_EMAIL
 
     launchDockerCompose
+
+    generatAndInjectFlags
 
     cleanup
 }

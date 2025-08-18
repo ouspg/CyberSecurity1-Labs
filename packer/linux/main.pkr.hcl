@@ -45,6 +45,22 @@ source "vmware-iso" "ubuntusrv22" {
 build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
+  provisioner "file" {
+    source      = "./configs/firstboot.service"
+    destination = "/tmp/firstboot.service"
+  }
+  provisioner "file" {
+    source      = "./scripts/firstboot.sh"
+    destination = "/tmp/firstboot.sh"
+  }
+  provisioner "file" {
+    source      = "../../flag_generator/"
+    destination = "/tmp"
+  }
+  provisioner "file" {
+    source      = "../../web/juice-shop.tar"
+    destination = "/tmp/juice_shop.tar"
+  }
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
@@ -62,5 +78,9 @@ build {
   provisioner "file" {
     source      = "../../privelage_escalation/linux/"
     destination = "/labs/priv_esc"
+  }
+  provisioner "file" {
+    source      = "../../web/"
+    destination = "/labs/web"
   }
 }
