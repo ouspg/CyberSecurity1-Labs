@@ -56,8 +56,8 @@ build {
   }
 
   provisioner "file" {
-    source      = "../../flag_generator/app/"
-    destination = "/tmp/app"
+    source      = "../../flag_generator/"
+    destination = "/tmp"
   }
 
   provisioner "shell" {
