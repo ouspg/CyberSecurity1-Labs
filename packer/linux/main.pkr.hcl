@@ -50,6 +50,11 @@ build {
     destination = "/etc/systemd/system/firstboot.service"
   }
 
+  provisioner "file" {
+    source      = "../scripts/firsboot.sh"
+    destination = "/usr/local/bin/firstboot.sh"
+  }
+
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
