@@ -1,0 +1,18 @@
+application:
+  name: 'IC00AJ64-3002-labs Shop'
+  logo: JuiceShopCTF_Logo.png
+  favicon: favicon_ctf.ico
+  showVersionNumber: false
+  showGitHubLinks: false
+  welcomeBanner:
+    showOnFirstStart: true
+    title: 'Welcome to the IC00AJ64-3002-labs Web Module.'
+    message: "<p>These are the web module labs for the course</p><h1><a href='https://owasp-juice.shop' target='_blank'>https://owasp-juice.shop</a></h1>"
+challenges:
+  showHints: false
+  codingChallengesEnabled: never
+  safetyMode: enabled
+hackingInstructor:
+  isEnabled: false
+ctf:
+  showFlagsInNotifications: true
