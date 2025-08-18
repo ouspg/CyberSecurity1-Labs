@@ -25,5 +25,7 @@ mkdir -p /labs/vuln_research /labs/metasploit /labs/priv_esc /labs/web
 sudo chown -R ubuntu:ubuntu /labs
 
 # setup firstboot service
+mv /tmp/firstboot.service /etc/systemd/firstboot.service
+mv /tmp/firstboot.sh /usr/local/bin/firstboot.sh
 chmod +x /usr/local/bin/firstboot.sh
 systemctl enable firstboot.service
