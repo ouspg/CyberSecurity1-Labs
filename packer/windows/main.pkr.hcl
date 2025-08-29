@@ -8,9 +8,12 @@ packer {
 }
 
 source "vmware-iso" "winsrv" {
+  # ISO configurations
+  iso_url      = "${var.iso_url}"
+  iso_checksum = "${var.iso_checksum}"
 
 }
 
 build {
-    sources = ["source.vmware-iso.winsrv"]
+  sources = ["source.vmware-iso.winsrv"]
 }
