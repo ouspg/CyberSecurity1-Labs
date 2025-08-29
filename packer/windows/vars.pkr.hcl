@@ -30,7 +30,7 @@ variable "mem_size" {
 
 variable "winrm_username" {
   type    = string
-  default = "winrm"
+  default = "dev"
 }
 
 variable "winrm_password" {
@@ -41,16 +41,18 @@ variable "winrm_password" {
 variable "boot_command" {
   description = "The command to boot the VM."
   type        = list(string)
-  default     = ["<spacebar>"]
+  default = [
+    "<spacebar>"
+  ]
 }
 
 variable "boot_wait" {
   description = "The time to wait for the VM to boot."
   type        = string
-  default     = "20s"
+  default     = "2s"
 }
 
 variable "autounattend_file" {
   type    = string
-  default = "answer_file/autounattended.xml"
+  default = "answer_file/autounattend.xml"
 }
