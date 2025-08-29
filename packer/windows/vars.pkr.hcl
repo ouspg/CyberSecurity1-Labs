@@ -49,3 +49,8 @@ variable "boot_wait" {
   type        = string
   default     = "20s"
 }
+
+variable "autounattend_file" {
+  type    = string
+  default = "answer_file/autounattended.xml"
+}

@@ -30,6 +30,11 @@ source "vmware-iso" "winsrv" {
   # Shutdown configurations
   shutdown_command = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
 
+  floppy_files = [
+    "${var.autounattend_file}",
+    "scripts/setup.ps1"
+  ]
+
 }
 
 build {
