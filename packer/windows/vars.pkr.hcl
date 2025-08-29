@@ -9,3 +9,31 @@ variable "iso_checksum" {
   type        = string
   default     = "4f1457c4fe14ce48c9b2324924f33ca4f0470475e6da851b39ccbf98f44e7852"
 }
+
+variable "cpu_num" {
+  description = "The number of cpus."
+  type        = number
+  default     = 2
+}
+
+variable "disk_size" {
+  description = "The hard disk size."
+  type        = number
+  default     = 102400
+}
+
+variable "mem_size" {
+  description = "The RAM size."
+  type        = number
+  default     = 4096
+}
+
+variable "winrm_username" {
+  type    = string
+  default = "winrm"
+}
+
+variable "winrm_password" {
+  type      = string
+  default   = env("WINRM_PASSWORD")
+}
