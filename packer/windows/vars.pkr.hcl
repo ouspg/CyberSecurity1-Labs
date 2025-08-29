@@ -34,6 +34,18 @@ variable "winrm_username" {
 }
 
 variable "winrm_password" {
-  type      = string
-  default   = env("WINRM_PASSWORD")
+  type    = string
+  default = env("WINRM_PASSWORD")
+}
+
+variable "boot_command" {
+  description = "The command to boot the VM."
+  type        = list(string)
+  default     = ["<spacebar>"]
+}
+
+variable "boot_wait" {
+  description = "The time to wait for the VM to boot."
+  type        = string
+  default     = "20s"
 }

@@ -23,6 +23,10 @@ source "vmware-iso" "winsrv" {
   winrm_password = "${var.winrm_password}"
   winrm_timeout  = "3h"
 
+# Boot configurations
+boot_command = "${var.boot_command}"
+boot_wait = "${var.boot_wait}"
+
 }
 
 build {
