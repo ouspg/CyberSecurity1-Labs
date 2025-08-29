@@ -19,7 +19,7 @@ variable "cpu_num" {
 variable "disk_size" {
   description = "The hard disk size."
   type        = number
-  default     = 102400
+  default     = 60000
 }
 
 variable "mem_size" {

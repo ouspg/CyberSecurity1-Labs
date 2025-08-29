@@ -13,9 +13,15 @@ source "vmware-iso" "winsrv" {
   iso_checksum = "${var.iso_checksum}"
 
   # Hardware configurations
-  cpus      = "${var.cpu_num}"
-  memory    = "${var.mem_size}"
-  disk_size = "${var.disk_size}"
+  cpus              = "${var.cpu_num}"
+  memory            = "${var.mem_size}"
+  disk_type_id      = "0"
+  disk_size         = "${var.disk_size}"
+  disk_adapter_type = "pvscsi"
+  floppy_files = [
+    "${var.autounattend_file}",
+    "scripts/setup.ps1"
+  ]
 
   # Communucator configurations
   communicator   = "winrm"
@@ -30,10 +36,6 @@ source "vmware-iso" "winsrv" {
   # Shutdown configurations
   shutdown_command = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
 
-  floppy_files = [
-    "${var.autounattend_file}",
-    "scripts/setup.ps1"
-  ]
 
 }
 
