@@ -210,5 +210,5 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Packer stuff:
-packer/linux/packer_cache/
-packer/linux/output*/
+packer/*/packer_cache/
+packer/*/output*/
