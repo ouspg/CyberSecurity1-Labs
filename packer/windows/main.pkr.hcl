@@ -17,18 +17,27 @@ source "vmware-iso" "winsrv" {
   memory    = "${var.mem_size}"
   disk_size = "${var.disk_size}"
 
-# Communucator configurations
-  communicator = "winrm"
+  # Communucator configurations
+  communicator   = "winrm"
   winrm_username = "${var.winrm_username}"
   winrm_password = "${var.winrm_password}"
   winrm_timeout  = "3h"
 
-# Boot configurations
-boot_command = "${var.boot_command}"
-boot_wait = "${var.boot_wait}"
+  # Boot configurations
+  boot_command = "${var.boot_command}"
+  boot_wait    = "${var.boot_wait}"
+
+  # Shutdown configurations
+  shutdown_command = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
 
 }
 
 build {
   sources = ["source.vmware-iso.winsrv"]
+
+  provisioner "powershell" {
+    inline = [
+      "Write-Host 'Hello from inside the Windows Server VM!'"
+    ]
+  }
 }
