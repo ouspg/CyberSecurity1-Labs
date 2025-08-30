@@ -1,3 +1,4 @@
+using Microsoft.PowerShell.Commands;
 using Setup.Common;
 
 namespace Setup.Steps;
@@ -11,9 +12,9 @@ public static class UsersAndGroups
         CreateLocalAccount(ctx.DevUser, ctx.DevUserPass);
         CreateLocalAccount(ctx.SvcUser, ctx.SvcUserPass);
         CreateLocalAccount(ctx.AdminUser, ctx.AdminUserUserPass);
+        AddUsersToGroups(ctx);
 
-        // Make adminlab a local admin
-        Shell.Run($"Add-LocalGroupMember -Group 'Administrators' -Member '{ctx.AdminUser}' -ErrorAction SilentlyContinue");
+
     }
 
     static void CreateLocalAccount(string username, string password)
@@ -23,5 +24,18 @@ public static class UsersAndGroups
                 $p = ConvertTo-SecureString '{password}' -AsPlainText -Force
                 New-LocalUser -Name '{username}' -Password $p -NoPasswordExpired -PasswordNeverExpires
             }}");
+
+        // Enable User
+        Shell.Run($@"
+        Enable-LocalUser -Name {username}
+        ");
+    }
+
+    static void AddUsersToGroups(Context ctx)
+    {
+        Shell.Run($"Add-LocalGroupMember -Group 'Administrators' -Member '{ctx.AdminUser}' -ErrorAction SilentlyContinue");
+        Shell.Run($"Add-LocalGroupMember -Group 'Users' -Member '{ctx.StudentUser}' -ErrorAction SilentlyContinue");
+        Shell.Run($"Add-LocalGroupMember -Group 'Users' -Member '{ctx.DevUser}' -ErrorAction SilentlyContinue");
+        Shell.Run($"Add-LocalGroupMember -Group 'Users' -Member '{ctx.SvcUser}' -ErrorAction SilentlyContinue");
     }
 }
