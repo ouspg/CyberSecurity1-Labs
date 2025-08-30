@@ -13,6 +13,10 @@ public static class UsersAndGroups
         CreateLocalAccount(ctx.SvcUser, ctx.SvcUserPass);
         CreateLocalAccount(ctx.AdminUser, ctx.AdminUserUserPass);
         AddUsersToGroups(ctx);
+        LoadUserProfiles(ctx.StudentUser, ctx.StudentUserPass);
+        LoadUserProfiles(ctx.DevUser, ctx.DevUserPass);
+        LoadUserProfiles(ctx.SvcUser, ctx.SvcUserPass);
+        LoadUserProfiles(ctx.AdminUser, ctx.AdminUserUserPass);
 
 
     }
@@ -36,5 +40,16 @@ public static class UsersAndGroups
         Shell.Run($"Add-LocalGroupMember -Group 'Users' -Member '{ctx.StudentUser}' -ErrorAction SilentlyContinue");
         Shell.Run($"Add-LocalGroupMember -Group 'Users' -Member '{ctx.DevUser}' -ErrorAction SilentlyContinue");
         Shell.Run($"Add-LocalGroupMember -Group 'Users' -Member '{ctx.SvcUser}' -ErrorAction SilentlyContinue");
+    }
+
+    static void LoadUserProfiles(string username, string password)
+    {
+        Shell.Run(@$"
+        $username = '{username}'
+        $password = '{password}'
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+        $credential = New-Object System.Management.Automation.PSCredential ($username, $securePassword)
+        Start-Process powershell.exe -ArgumentList 'whoami' -Credential $credential -LoadUserProfile -WorkingDirectory 'C:\Windows\System32'
+        ");
     }
 }
