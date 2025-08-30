@@ -20,10 +20,9 @@ public static class UsersAndGroups
     static void CreateLocalAccount(string username, string password)
     {
         Shell.Run($@"
-            if (-not (Get-LocalUser -Name '{username}' -ErrorAction SilentlyContinue)) {{
-                $p = ConvertTo-SecureString '{password}' -AsPlainText -Force
-                New-LocalUser -Name '{username}' -Password $p -NoPasswordExpired -PasswordNeverExpires
-            }}");
+            $p = ConvertTo-SecureString '{password}' -AsPlainText -Force 
+            New-LocalUser -Name '{username}' -Password $p -PasswordNeverExpires:$true
+           ");
 
         // Enable User
         Shell.Run($@"
