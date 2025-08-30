@@ -212,3 +212,4 @@ __marimo__/
 # Packer stuff:
 packer/*/packer_cache/
 packer/*/output*/
+privelage_escalation/windows/Setup/.gitignore
