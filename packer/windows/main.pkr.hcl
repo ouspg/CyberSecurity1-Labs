@@ -8,6 +8,7 @@ packer {
 }
 
 source "vmware-iso" "winsrv" {
+
   # ISO configurations
   iso_url      = "${var.iso_url}"
   iso_checksum = "${var.iso_checksum}"
@@ -36,7 +37,8 @@ source "vmware-iso" "winsrv" {
   # Shutdown configurations
   shutdown_command = "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
 
-
+  # Export configurations
+  format = "ova"
 }
 
 build {
