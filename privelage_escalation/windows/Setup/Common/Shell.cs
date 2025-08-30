@@ -13,5 +13,10 @@ public static class Shell
         ps.Runspace = runspace;
         ps.AddScript(script);
         var results = ps.Invoke();
+        if (ps.HadErrors)
+        {
+            var msg = string.Join("\n", ps.Streams.Error.Select(e => e.ToString()));
+            throw new Exception(msg);
+        }
     }
 }
