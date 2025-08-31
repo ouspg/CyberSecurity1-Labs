@@ -14,6 +14,13 @@
 
 <div class="mainContent">
     <h2 id="title">Hello, {{name}}!</h2>
+    
+    {% if flag %}
+    <div class="flag">
+        <strong>Congratulations! Here is your flag:</strong> {{ flag }}
+    </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-md-3">
             <div class="summary-box">

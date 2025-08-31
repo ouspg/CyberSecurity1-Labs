@@ -134,8 +134,12 @@ def dashboard(username):
         if len(sideBarName) > 16:
             sideBarName = '...'
 
-        return render_template('dashboard.html', name=current_user.firstName + " " + current_user.lastName, sideBarName=sideBarName, events=events, birthdays=birthdays, username=current_user.username, 
+        if username == "john":
+            return render_template('dashboard.html', flag=r"{BRUTE_FORCE_FLAG}", name=current_user.firstName + " " + current_user.lastName, sideBarName=sideBarName, events=events, birthdays=birthdays, username=current_user.username, 
                                phoneNumbers=phoneNumbers, totalEmployees=totalEmployees, totalPayRole=totalPayRole, largestDepartments=largestDepartments, employeesPerDepartment=employeesPerDepartment)
+        else:
+            return render_template('dashboard.html', name=current_user.firstName + " " + current_user.lastName, sideBarName=sideBarName, events=events, birthdays=birthdays, username=current_user.username, 
+                                phoneNumbers=phoneNumbers, totalEmployees=totalEmployees, totalPayRole=totalPayRole, largestDepartments=largestDepartments, employeesPerDepartment=employeesPerDepartment)
     else: #makes it so the user can't put a random string as a username in the URL. eg(http://127.0.0.1:5000/FakeUsername is not acceptable)
         return redirect(url_for('auth.login'))
     
