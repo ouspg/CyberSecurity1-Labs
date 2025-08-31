@@ -1,59 +1,84 @@
-# VM Generation
+# Packer Templates
 
-This repo utilizes packer to build a virtual machine image of the labs which is then exported as OVA which can be imported into hypervisors.
+This directory contains Packer templates and supporting files for building Linux and Windows virtual machine images used in lab environments.
 
-1. [Layout](#directory-layout)
-2. [Dependencies](#dependencies)
-3. [Setup](#setup)
-4. [Configurations](#configurations)
+---
 
-## Directory Layout
+## Directory Structure
 
-The packer configurations and scripts are explained as below:
+```bash
+packer/
+├── linux/
+│   ├── main.pkr.hcl           # Main Packer template for Linux
+│   ├── vars.pkr.hcl           # Variable definitions for Linux builds
+│   ├── README.md              # Linux image build instructions
+│   ├── configs/
+│   │   ├── firstboot.service  # Systemd service for first boot tasks.
+│   ├── http/
+│   │   ├── meta-data          # Cloud-init meta-data
+│   │   └── user-data          # Cloud-init user-data
+|   ├── output-ubuntusrv22/
+|   │   └── packer-ubuntusrv22.ova  # Output Ubuntu Server OVA image
+|   ├── packer_cache/          # Packer cache (ISOs, etc.)
+|   │   ├── *.iso
+|   │   ├── *.iso.lock
+|   │   └── port/              # Port files used during builds
+│   └── scripts/
+│       ├── firstboot.sh       # Script executed on first boot
+│       └── setup.sh           # Setup script for provisioning
 
-|File|Description|
-|:--:|:--:|
-|`main.pkr.hcl`|This is the main packer file that includes all the steps for building and proviosing the VM|
-|`vars.pkr.hcl`|This file includes stores variables that are referenced in `main.pkr.hcl`|
-|`http/user-data`|User data file used for unattened and automated installation for linux|
-|`scripts/setup.sh`|Proviosnary script that installs required dependencies, creates directories etc.|
-|`scripts/firstboot.sh`|Script that is run during the first boot of the VM by the students. This generates the dynamic flags and starts the lab services|
-|`configs/firstboot.service`|Service configuration file for `firstboot.sh` script|
+```
+
+---
 
 ## Dependencies
 
-You need to have packer installed on the system. Packer can be installed from the HashiCorp website.
-The packer script also utlizes the `vmware` plugin to build and provision the virtual machines, so you also need to have vmware workstation installed aswell.
+1. **Packer:**
+    Packer is used for building and proviosing the VM's. Can be installed from HashiCorp website
+2. **VMWare Workstation**
+    The packer template also utlizes the `vmware` plugin to build and provision the virtual machines, so you also need to have vmware workstation installed aswell.
 
-## Setup
+---
 
-> You will need to first configure the individual labs before running `packer build .`. Please refer to the documentation of the individual labs.
+## Usage
 
-To create the lab, first go the the packer directory:
+### Linux Image Build
 
-```bash
-cd CyberSecruity1/packer/linux
-```
+> You may need to first configure the individual labs before running `packer build .`. Please refer to the documentation of the individual labs.
 
-Install the required packer plugins:
+1. **Change Working Directory:**
+    Change you working direcrtory:
 
-```bash
-packer init .
-```
+    ```bash
+    cd CyberSecruity1/packer/linux
+    ```
 
-Set the `ssh_password` used by packer reference in `vars.pkr.hcl`. The password needs to be set as an environment variable. Please also see [SSH Password](#ssh-password)
+1. **Configure Variables:**  
+   Edit `linux/vars.pkr.hcl` to set build-specific variables (e.g., SSH username, passwords, etc.).
+    Set the `ssh_password` used by packer reference in `vars.pkr.hcl`. The password needs to be set as an environment variable. Please also see [SSH Password](#ssh-password)
 
-```bash
-export SSH_PASSWORD=<some_ssh_password>
-```
+    ```bash
+    export SSH_PASSWORD=<some_ssh_password>
+    ```
 
-Set the secret key in `scripts/firstboot.sh`. See [Secret Key](#secret-key)
+2. **Configure Secret Key:**
+    Set the secret key in `scripts/firstboot.sh`. See [Secret Key](#secret-key)
 
-Finally build and provion the image. After proviosiong is done, it will export the image as `packer-{source_name}.ova` under `output-<source_name>.ova` This image can be distrubuted to the students which they can import into their own systems.
+2. **Build the Image:**  
+   Run the following commands from the `packer/linux/` directory:
 
-```bash
-packer build .
-```
+   ```sh
+   packer init .
+   packer build .
+   ```
+
+   After proviosiong is done, it will export the image as `packer-{source_name}.ova` under `output-<source_name>.ova` This image can be distrubuted to the students which they can import into their own systems.
+
+3. **Customization:**  
+   - Cloud-init files are in `http/`.
+   - Custom scripts and systemd services are in `scripts/` and `configs/`.
+
+---
 
 ## Configurations
 
@@ -78,3 +103,16 @@ mkpasswd --method=SHA-512 --rounds=4096 "<my_password>"
 ### Secret Key
 
 The `scripts/firstboot.sh` script exports a secret key which is used by the flag generator and OWASP Juice Shop during VM setup to create dynamic flags. You need to provide this key before building the VM with packer. Also refer to [Flag Generation](flag_generator/app/README.md) to learn more.
+
+---
+
+## Notes
+
+- **Cloud-init:**  
+  The Linux build uses cloud-init for initial configuration under `http/user-data` and `http/meta-data`.
+
+- **Scripts:**  
+  Place any provisioning or setup scripts in the appropriate `scripts/` directory.
+
+- **Cache:**  
+  The `packer_cache/` directory is used by Packer to store downloaded ISOs and other resources. You can safely delete this directory to reclaim space, but Packer will re-download resources as needed.
