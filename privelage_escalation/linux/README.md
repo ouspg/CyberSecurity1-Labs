@@ -21,6 +21,10 @@ For the challenges, following users are created.
 |`jenkins_agent`|`system2`|`usergroup1, usergroup2`|
 |`admin_anna`|`system2`|`usergroup2`|
 
+You can change the usernames and password in the dockerfiles. If you do that you will also need to update corresponding entries in `config/sudoers` and `config/crontab`.
+
+Keep in mind if you update the passwords, the password for the user `devops_venla` needs to be intentionally weak so that it can be cracked easily as part of the lab assignemnt.
+
 ### Leve 1 - SUID
 
 User `dev_aarni` and `devops_venla` are created and given SUID access to `base64` binary in `Dockerfile-system1`.
