@@ -12,6 +12,7 @@ The labs are diveded into different categories. Each lab configuration is presen
 |Burp Suite|`burp-suite`|
 |Network Security|`netsec`|
 |Vulnerability Research|`vuln-research`|
+|Metasploit|`metasploit`|
 |Privelage Esacalation (Linux)|`privelage-escalation`|
 
 ## Setup
