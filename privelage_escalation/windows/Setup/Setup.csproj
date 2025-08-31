@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Management.Automation" Version="7.5.2" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.5.2" />
   </ItemGroup>
 
 </Project>
