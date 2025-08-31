@@ -49,4 +49,9 @@ build {
       "Write-Host 'Hello from inside the Windows Server VM!'"
     ]
   }
+  provisioner "powershell" {
+    scripts = [
+      "scripts/vmware-tools.ps1"
+    ]
+  }
 }
