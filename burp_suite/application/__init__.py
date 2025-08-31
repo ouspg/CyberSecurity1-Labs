@@ -6,13 +6,13 @@ from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 
-from .models import Admin
+from .models import Admin, Position
 def seed_users(app):
     with app.app_context():
         if Admin.query.count() == 0:
-            # Add your default users here
-            user1 = Admin(firstName="John", lastName="Matt", username="john", password=generate_password_hash("admin123", method='scrypt'))
-            db.session.add_all([user1])
+            user1 = Admin(firstName="Nicole", lastName="Jennings", username="nicole", password=generate_password_hash("babygirl", method='scrypt'))
+            position1 = Position(title="Manager", description="Does manager stuff like {DECODE_FLAG}", basePay=5000, admin_id=1)
+            db.session.add_all([user1, position1])
             db.session.commit()
             print("Default users created.")
 

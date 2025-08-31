@@ -134,7 +134,7 @@ def dashboard(username):
         if len(sideBarName) > 16:
             sideBarName = '...'
 
-        if username == "john":
+        if username == "nicole":
             return render_template('dashboard.html', flag=r"{BRUTE_FORCE_FLAG}", name=current_user.firstName + " " + current_user.lastName, sideBarName=sideBarName, events=events, birthdays=birthdays, username=current_user.username, 
                                phoneNumbers=phoneNumbers, totalEmployees=totalEmployees, totalPayRole=totalPayRole, largestDepartments=largestDepartments, employeesPerDepartment=employeesPerDepartment)
         else:

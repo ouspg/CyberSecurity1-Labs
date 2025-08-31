@@ -64,7 +64,6 @@ def data(username):
     
     elif request.method == 'POST':
         data = request.get_json()
-        print(data)
 
         if data['title'].strip() == '' or data.get('description').strip() == '' or data.get('basePay') == '':
             return '', 400
