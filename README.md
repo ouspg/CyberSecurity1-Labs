@@ -21,4 +21,4 @@ The labs are setup using packer which creates an OVA image that can be imported 
 
 ## Flag Generation
 
-The labs utilized a flag generator application to create dynamic flags for students that are then injected into the labs. For usage guide and configurations, refer to {flag generation readme here}.
+The labs utilized a flag generator application to create dynamic flags for students that are then injected into the labs. For usage guide and configurations, refer to [Flag Generation](flag_generator/app/README.md).

@@ -77,4 +77,4 @@ mkpasswd --method=SHA-512 --rounds=4096 "<my_password>"
 
 ### Secret Key
 
-The `scripts/firstboot.sh` script exports a secret key which is used by the flag generator and OWASP Juice Shop during VM setup to create dynamic flags. You need to provide this key before building the VM with packer. Also refer to [Flag Generation Logic] to learn more.
+The `scripts/firstboot.sh` script exports a secret key which is used by the flag generator and OWASP Juice Shop during VM setup to create dynamic flags. You need to provide this key before building the VM with packer. Also refer to [Flag Generation](flag_generator/app/README.md) to learn more.
