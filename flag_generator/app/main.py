@@ -36,7 +36,6 @@ def main(args: argparse.Namespace):
 
     gen = FlagGenerator(get_config("app", "secret", "SECRET"), labs)
 
-    logger.info(f"Generating flags for email {email}")
     flags = {}
     logger.info(f"Generating flags for {args.email}")
     if args.email:

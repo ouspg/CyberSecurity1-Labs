@@ -58,7 +58,7 @@ def create_all_labs(plugins) -> List[Lab]:
 
     labs = []
     for plugin_name, plugin_module in plugins.items():
-        logger.info(f"Loaded plugin: {plugin_name}")
+        logger.debug(f"Loaded plugin: {plugin_name}")
         if hasattr(plugin_module, 'create_lab'):
             lab = plugin_module.create_lab()
             labs.append(lab)
