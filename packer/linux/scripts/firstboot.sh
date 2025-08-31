@@ -9,7 +9,7 @@ yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
 
 # setting enivronment variables to be used during setup
-export LOG_LEVEL="DEBUG"
+export LOG_LEVEL="INFO"
 export SECRET="<secret here>"
 
 banner() {
