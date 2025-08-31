@@ -49,11 +49,11 @@ python -m app.main --file emails.txt --export flags.json
 
 ## Configuration
 
-Edit `app/config.ini` to set logging levels and other options:
+Configuration for the app are passed via environment varibles. You need to set the values for logging level and the secret key.
 
-```ini
-[logging]
-level=DEBUG
+```bash
+export LOG_LEVEL=INFO
+export SECRET_KEY=<secret_key>
 ```
 
 ## Requirements
