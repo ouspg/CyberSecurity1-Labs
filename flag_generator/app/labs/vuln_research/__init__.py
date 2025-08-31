@@ -10,8 +10,6 @@ from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
-client = docker.from_env()
-
 
 class ServiceName(Task):
     """
@@ -81,6 +79,7 @@ class TicketContent(Task):
         super().__init__(task_id)
 
     def inject(self):
+        client = docker.from_env()
         mysql_command = (
             f'mysql -u {get_config("ticket_content_task", "mysql_user")} -p{get_config("ticket_content_task", "mysql_password")} '
             f'-e "INSERT INTO {get_config("ticket_content_task", "table")} ({get_config("ticket_content_task", "table_columns")}) '
