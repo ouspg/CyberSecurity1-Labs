@@ -47,6 +47,8 @@ Set the `ssh_password` used by packer reference in `vars.pkr.hcl`. The password 
 export SSH_PASSWORD=<some_ssh_password>
 ```
 
+Set the secret key in `scripts/firstboot.sh`. See [Secret Key](#secret-key)
+
 Finally build and provion the image. After proviosiong is done, it will export the image as `packer-{source_name}.ova` under `output-<source_name>.ova` This image can be distrubuted to the students which they can import into their own systems.
 
 ```bash
@@ -72,3 +74,7 @@ To update the password in `user-data`, you need to provide the hashed password. 
 ```bash
 mkpasswd --method=SHA-512 --rounds=4096 "<my_password>"
 ```
+
+### Secret Key
+
+The `scripts/firstboot.sh` script exports a secret key which is used by the flag generator and OWASP Juice Shop during VM setup to create dynamic flags. You need to provide this key before building the VM with packer. Also refer to [Flag Generation Logic] to learn more.
