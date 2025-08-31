@@ -10,9 +10,13 @@ public static class CredSeeding
         Console.WriteLine("Seeding Credentials");
         var hist = $@"C:\Users\{ctx.StudentUser}\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt";
         Directory.CreateDirectory(Path.GetDirectoryName(hist)!);
-        File.AppendAllText(hist, $"cmdkey /add:LAB-PC /user:{ctx.StudentUser} /pass:{ctx.StudentUserPass}");
-
-        // Saved credentials
-        Shell.Run($"runas /user:{ctx.DevUser} /pass:{ctx.DevUserPass} 'cmdkey /add:LAB-PC /user:{ctx.SvcUser} /pass:{ctx.SvcUserPass}'")
+        string histContent = @$"
+ls
+pwd
+whoami
+ping 9.9.9.9
+cmdkey /add:LAB-PC /user:{ctx.SvcUser} /pass:{ctx.SvcUserPass}
+        ";
+        File.AppendAllText(hist, histContent);
     }
 }
