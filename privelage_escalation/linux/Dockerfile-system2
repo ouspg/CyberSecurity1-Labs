@@ -41,18 +41,18 @@ RUN groupadd -g 1004 usergroup1 && \
     groupadd -g 1005 usergroup2
 
 RUN useradd -m -s /bin/bash devops_venla && \
-    echo "devops_venla:password" | chpasswd && \
+    echo "devops_venla:princess1" | chpasswd && \
     usermod -aG usergroup1 devops_venla && \
     chmod 771 /home/devops_venla
 
 RUN useradd -m -s /bin/bash jenkins_agent && \
-    echo "jenkins_agent:password" | chpasswd && \
+    echo "jenkins_agent:superstr0n3P7ssW04d" | chpasswd && \
     usermod -aG usergroup1 jenkins_agent && \
     usermod -aG usergroup2 jenkins_agent && \
     chmod 771 /home/jenkins_agent
 
 RUN useradd -m -s /bin/bash admin_anna && \
-    echo "admin_anna:password" | chpasswd && \
+    echo "admin_anna:superstr0n3P7ssW04d" | chpasswd && \
     usermod -aG usergroup2 admin_anna && \
     chmod 771 /home/admin_anna
 
@@ -77,22 +77,6 @@ RUN chmod 644 /etc/crontab
 # --- Level 4: SUDO setup ---
 COPY ./configs/sudoers /etc/sudoers
 RUN chmod 440 /etc/sudoers
-
-# --- Dummy flags for each user ---
-# TODO: remove dummy flags
-RUN echo "Flag1" > /home/devops_venla/flag1.txt && \
-    chown devops_venla:devops_venla /home/devops_venla/flag1.txt && \
-    chmod 640 /home/devops_venla/flag1.txt
-
-RUN echo "Flag2" > /home/jenkins_agent/flag2.txt && \
-    chown jenkins_agent:jenkins_agent /home/jenkins_agent/flag2.txt && \
-    chmod 640 /home/jenkins_agent/flag2.txt
-
-RUN echo "Flag3" > /home/admin_anna/flag3.txt && \
-    chown admin_anna:admin_anna /home/admin_anna/flag3.txt && \
-    chmod 640 /home/admin_anna/flag3.txt
-
-RUN echo "Flag4" > /root/flag4.txt
 
 # --- Entrypoint ---
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
