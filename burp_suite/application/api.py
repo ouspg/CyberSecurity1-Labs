@@ -1,4 +1,4 @@
-from flask import Blueprint, request, abort, flash
+from flask import Blueprint, request, abort, flash, make_response
 from flask_login import login_required, current_user
 from datetime import datetime, time
 import phonenumbers
@@ -17,9 +17,23 @@ def data(username):
         admin = Admin.query.filter_by(username=username).first()
         positions = Position.query.filter_by(admin_id=admin.id)
 
-        return {
+        data = {
             'data': [Position.to_dict() for Position in positions]
         }
+
+        header_name = "X-Reveal-Flag"
+        header_initial_value = 'False'
+        header_target_value = 'True'
+        header_flag = r"{MODIFY_HEADER_FLAG}"
+
+        # Check if the correct header is present in the request
+        if request.headers.get(header_name) == header_target_value:
+            data.update({"flag": header_flag})
+        # Otherwise, instruct the user to modify the header
+
+        resp = make_response(data)
+        resp.headers[header_name] = header_initial_value
+        return resp
     
     elif request.method == 'PATCH':
         data = request.get_json()
