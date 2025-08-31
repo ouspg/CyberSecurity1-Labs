@@ -2,7 +2,7 @@
 
 This repo utilizes packer to build a virtual machine image of the labs which is then exported as OVA which can be imported into hypervisors.
 
-1. [Layout](#layout)
+1. [Layout](#directory-layout)
 2. [Dependencies](#dependencies)
 3. [Setup](#setup)
 4. [Configurations](#configurations)
