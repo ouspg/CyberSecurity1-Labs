@@ -6,9 +6,18 @@ services:
     ports:
       - "3000:3000"
     environment:
+      # The config file to load
       - NODE_ENV=juice-shop-config
+
+      # The student email is set at runtime when
+      # `packer/linux/scripts/firstboot.sh` runs
       - EMAIL=${STUDENT_EMAIL}
+
+      # Do not update this. Used for generating flags
       - LAB_ID=web_hacking
+
+      # The key is also set at first boot when
+      # `packer/linux/scripts/firstboot.sh` runs
       - CTF_KEY=${SECRET}
     volumes:
       - /labs/web/juice-shop-config.yml:/juice-shop/config/juice-shop-config.yml

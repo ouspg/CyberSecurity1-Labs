@@ -11,9 +11,6 @@ from app.utils.logger import setup_logger
 logger = setup_logger(__name__)
 
 
-client = docker.from_env()
-
-
 class SUID(Task):
     """
     SUID task for privilege escalation.
@@ -27,7 +24,7 @@ class SUID(Task):
         Inject the SUID task flag.
         The flag is injected by echoing the flag content into a flag file inside the docker container.
         """
-
+        client = docker.from_env()
         container = client.containers.get(get_config("suid", "container_name"))
         container.exec_run(
             f"sh -c 'echo {self.get_flag()} > {get_config("suid", "flag_location")}'")
@@ -50,6 +47,7 @@ class PATH(Task):
         """
         Inject the PATH task flag.
         """
+        client = docker.from_env()
         container = client.containers.get(get_config("path", "container_name"))
         container.exec_run(
             f"sh -c 'echo {self.get_flag()} > {get_config("path", "flag_location")}'")
@@ -57,7 +55,7 @@ class PATH(Task):
             f"sh -c 'chown {get_config("path", "user")}:{get_config("path", "group")} {get_config("path", "flag_location")}'")
         container.exec_run(
             f"sh -c 'chmod 640 {get_config("path", "flag_location")}'")
-    
+
         logger.debug(f"Injecting PATH flag: {self.get_flag()}")
 
 
@@ -73,7 +71,7 @@ class CRON(Task):
         """
         Inject the CRON task flag.
         """
-
+        client = docker.from_env()
         container = client.containers.get(get_config("cron", "container_name"))
         container.exec_run(
             f"sh -c 'echo {self.get_flag()} > {get_config("cron", "flag_location")}'")
@@ -81,7 +79,7 @@ class CRON(Task):
             f"sh -c 'chown {get_config("cron", "user")}:{get_config("cron", "group")} {get_config("cron", "flag_location")}'")
         container.exec_run(
             f"sh -c 'chmod 640 {get_config("cron", "flag_location")}'")
-        
+
         logger.debug(f"Injecting CRON flag: {self.get_flag()}")
 
 
@@ -97,7 +95,7 @@ class SUDO(Task):
         """
         Inject the SUDO task flag.
         """
-
+        client = docker.from_env()
         container = client.containers.get(get_config("sudo", "container_name"))
         container.exec_run(
             f"sh -c 'echo {self.get_flag()} > {get_config("sudo", "flag_location")}'")

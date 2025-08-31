@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# Start the sniffer as background process
 /var/opt/mon/cli/cli &
 
+# run thhe libssh service
 /usr/src/build/examples/ssh_server_fork \
     --hostkey=/etc/ssh/ssh_host_rsa_key \
     --ecdsakey=/etc/ssh/ssh_host_ecdsa_key \

@@ -36,6 +36,7 @@ def main(args: argparse.Namespace):
 
     gen = FlagGenerator(get_config("app", "secret", "SECRET"), labs)
 
+    logger.info(f"Generating flags for email {email}")
     flags = {}
     logger.info(f"Generating flags for {args.email}")
     if args.email:
@@ -52,7 +53,8 @@ def main(args: argparse.Namespace):
 
     # If email file is provided it will generate multiple flags for same labs so
     # inject flags only under normal operation i.e single email passed via `--email` parameter
-    if not args.file:
+    # if export option is provied, do not inject flags
+    if not args.file and not args.export:
         for lab in labs:
             lab.inject_all()
             logger.info(f"Injected flags for lab {lab.lab_id}")
