@@ -89,7 +89,12 @@ cleanup() {
     # Disable and remove the service to prevent it from running again
     #TODO: use variables for the service names
     systemctl disable firstboot.service &> /dev/null
-    # $rm "$0"
+
+    # remove the firstboot script
+    $rm "$0"
+
+    # remove the flag generator app
+    rm -rf usr/lib/python3.12/app
 
     echo "${bold}${green}[  OK  ]${reset}   Cleanup completed successfully."
     read -p "Press [Enter] to continue..." -r
