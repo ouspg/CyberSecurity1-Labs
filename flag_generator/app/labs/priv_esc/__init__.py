@@ -11,9 +11,6 @@ from app.utils.logger import setup_logger
 logger = setup_logger(__name__)
 
 
-
-
-
 class SUID(Task):
     """
     SUID task for privilege escalation.
@@ -58,7 +55,7 @@ class PATH(Task):
             f"sh -c 'chown {get_config("path", "user")}:{get_config("path", "group")} {get_config("path", "flag_location")}'")
         container.exec_run(
             f"sh -c 'chmod 640 {get_config("path", "flag_location")}'")
-    
+
         logger.debug(f"Injecting PATH flag: {self.get_flag()}")
 
 
@@ -82,7 +79,7 @@ class CRON(Task):
             f"sh -c 'chown {get_config("cron", "user")}:{get_config("cron", "group")} {get_config("cron", "flag_location")}'")
         container.exec_run(
             f"sh -c 'chmod 640 {get_config("cron", "flag_location")}'")
-        
+
         logger.debug(f"Injecting CRON flag: {self.get_flag()}")
 
 
