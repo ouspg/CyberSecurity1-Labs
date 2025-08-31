@@ -36,8 +36,8 @@ def main(args: argparse.Namespace):
 
     gen = FlagGenerator(get_config("app", "secret", "SECRET"), labs)
 
-    logger.info(f"Generating flags for email {email}")
     flags = {}
+    logger.info(f"Generating flags for {args.email}")
     if args.email:
         flags.update(gen.generate_flags(args.email))
 
@@ -47,6 +47,8 @@ def main(args: argparse.Namespace):
 
         for email in emails:
             flags.update(gen.generate_flags(email.strip()))
+
+    logger.debug(f"Generated flags: {flags}")
 
     # If email file is provided it will generate multiple flags for same labs so
     # inject flags only under normal operation i.e single email passed via `--email` parameter
