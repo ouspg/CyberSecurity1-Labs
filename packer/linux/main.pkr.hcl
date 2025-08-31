@@ -45,6 +45,11 @@ source "vmware-iso" "ubuntusrv22" {
 build {
   sources = ["source.vmware-iso.ubuntusrv22"]
 
+  # copy all the necessary files and scripts to the machine
+  # some files are moved to /tmp because packer doesnt have permision to copy
+  # files in restricted directories. These files will be later moved to their correct
+  # locations during proviosing with `setup.sh`
+  # https://developer.hashicorp.com/packer/docs/provisioners/file
   provisioner "file" {
     source      = "./configs/firstboot.service"
     destination = "/tmp/firstboot.service"
@@ -53,20 +58,28 @@ build {
     source      = "./scripts/firstboot.sh"
     destination = "/tmp/firstboot.sh"
   }
+
+  # copying the file generator application
   provisioner "file" {
     source      = "../../flag_generator/"
     destination = "/tmp"
   }
+
+  # copying the modified juice shop image
   provisioner "file" {
     source      = "../../web/juice-shop.tar"
     destination = "/tmp/juice_shop.tar"
   }
+
+  # proviosing with the setup script
   provisioner "shell" {
     execute_command = "echo '${var.ssh_password}' | sudo -S env {{ .Vars }} {{ .Path }}"
     scripts = [
       "./scripts/setup.sh"
     ]
   }
+
+  # copying all lab content to the VM
   provisioner "file" {
     source      = "../../vuln-research/"
     destination = "/labs/vuln_research"

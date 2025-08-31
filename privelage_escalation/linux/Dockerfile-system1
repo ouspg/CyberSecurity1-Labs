@@ -15,7 +15,7 @@ RUN useradd -m -s /bin/bash dev_aarni && \
     chmod 771 /home/dev_aarni
 
 RUN useradd -m -s /bin/bash devops_venla && \
-    echo "devops_venla:password" | chpasswd && \
+    echo "devops_venla:princess1" | chpasswd && \
     chmod 771 /home/devops_venla
 
 # --- Level 1: SUID configuration ---

@@ -9,7 +9,7 @@ yellow="$(tput setaf 3)"
 reset="$(tput sgr0)"
 
 # setting enivronment variables to be used during setup
-export LOG_LEVEL="DEBUG"
+export LOG_LEVEL="INFO"
 export SECRET="<secret here>"
 
 banner() {
@@ -89,7 +89,12 @@ cleanup() {
     # Disable and remove the service to prevent it from running again
     #TODO: use variables for the service names
     systemctl disable firstboot.service &> /dev/null
-    # $rm "$0"
+
+    # remove the firstboot script
+    $rm "$0"
+
+    # remove the flag generator app
+    rm -rf usr/lib/python3.12/app
 
     echo "${bold}${green}[  OK  ]${reset}   Cleanup completed successfully."
     read -p "Press [Enter] to continue..." -r
