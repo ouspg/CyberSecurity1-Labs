@@ -12,10 +12,10 @@ from app.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
-client = docker.from_env()
 
 
-class TaskOne(Task):
+
+class ServiceVersion(Task):
     """
     First task for the lab.
     This task invovles identifying the service name/version running on the lab port.
@@ -23,7 +23,7 @@ class TaskOne(Task):
 
     def __init__(self, task_id: str, flag_type='static'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("task_one", "service_version"))
+        self.set_flag(get_config("service_version", "version"))
 
     def inject(self):
         """
@@ -35,7 +35,7 @@ class TaskOne(Task):
         pass
 
 
-class TaskTwo(Task):
+class CVE(Task):
     """
     Second task for the lab.
     This task invovles identifying the CVE that allows remote code execution
@@ -44,7 +44,7 @@ class TaskTwo(Task):
 
     def __init__(self, task_id: str, flag_type: str = "static"):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("task_two", "cve"))
+        self.set_flag(get_config("cve_name", "cve"))
 
     def inject(self):
         """
@@ -56,7 +56,7 @@ class TaskTwo(Task):
         pass
 
 
-class TaskThree(Task):
+class ServiceExploit(Task):
     """
     Second task for the lab.
     This task invovles gaining remote access to the system. Flag is injecting
@@ -72,13 +72,14 @@ class TaskThree(Task):
         Since the service name/version is static, there is no actual injection logic
         involved
         """
+        client = docker.from_env()
         container = client.containers.get(
-            get_config("task_three", "container_name"))
+            get_config("service_exploit", "container_name"))
         container.exec_run(
-            f"sh -c 'echo {self.get_flag()} > {get_config("task_three", "flag_location")}'")
+            f"sh -c 'echo {self.get_flag()} > {get_config("service_exploit", "flag_location")}'")
 
 
-class TaskFour(Task):
+class Meterpreter(Task):
     """
     Second task for the lab.
     This task involves creating a meterpreter session. Flag is injected by modifying
@@ -96,18 +97,18 @@ class TaskFour(Task):
         """
 
         # replace embeded flag in the binary
-        with open(get_config("task_four", "sniffer_location"), "r") as f:
+        with open(get_config("meterpreter_session", "sniffer_location"), "r") as f:
             content = f.read()
 
         content = content.replace(get_config(
-            "task_four", "placeholder_flag"), self.get_flag())
+            "meterpreter_session", "placeholder_flag"), self.get_flag())
 
-        with open(get_config("task_four", "sniffer_location"), "w") as f:
+        with open(get_config("meterpreter_session", "sniffer_location"), "w") as f:
             f.write(content)
 
         # build the container again
         os.system(
-            f"docker compose -f {get_config('task_four', 'compose_file_location')} up  -d --build")
+            f"docker compose -f {get_config('meterpreter_session', 'compose_file_location')} up  -d --build")
 
 
 def create_lab() -> Lab:
@@ -121,10 +122,10 @@ def create_lab() -> Lab:
 
     # task four should be injected first as it rebuilds the image
     tasks = [
-        TaskOne("one_task"),
-        TaskTwo("two_task"),
-        TaskFour("four_task"),
-        TaskThree("three_task")
+        ServiceVersion("service_version"),
+        CVE("cve_name"),
+        Meterpreter("meterpreter_session"),
+        ServiceExploit("service_exploit")
     ]
     MetasploitLab = Lab("metasploit", tasks)
 
