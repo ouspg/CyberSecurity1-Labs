@@ -1,0 +1,1 @@
+FLAG{ftp_password_cracked_flag}
