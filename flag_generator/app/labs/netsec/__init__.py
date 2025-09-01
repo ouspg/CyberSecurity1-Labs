@@ -20,7 +20,7 @@ class UDPPorts(Task):
 
     def __init__(self, task_id: str, flag_type='static'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("udp_ports", "service_name"))
+        self.set_flag(get_config("udp_ports", "count"))
 
     def inject(self):
         """
@@ -58,7 +58,7 @@ class PortNumber(Task):
 
     def __init__(self, task_id: str, flag_type='static'):
         super().__init__(task_id=task_id, flag_type=flag_type)
-        self.set_flag(get_config("port_number", "10023"))
+        self.set_flag(get_config("port_number", "port"))
 
     def inject(self):
         """
@@ -132,10 +132,10 @@ def create_lab() -> Lab:
     """
 
     tasks = [
-        UDPPorts("udpPorts"),
-        ServiceVersion("serviceVersion"),
-        PortNumber("portNumber"),
-        HTTPHeader("header"),
+        UDPPorts("udp_ports"),
+        ServiceVersion("service_version"),
+        PortNumber("port_number"),
+        HTTPHeader("http_header"),
         FTP("ftp")
     ]
     NetSecLab = Lab("netsec", tasks)
