@@ -3,13 +3,15 @@ This package contains the Burp Suite lab for the Flag Generator application.
 It defines various Burp Suite tasks and groups them into a lab.
 """
 
-import docker
+
+import base64
+
 from app.injector import Lab, Task
 from app.utils.config import get_config
 from app.utils.logger import setup_logger
-import os
 
 logger = setup_logger(__name__)
+
 
 class Sitemap(Task):
     """
@@ -35,6 +37,7 @@ class Sitemap(Task):
         with open(get_config("sitemap", "file_location"), "w") as f:
             f.write(content)
 
+
 class BruteForce(Task):
     """
     BruteForce task for privilege escalation.
@@ -59,6 +62,7 @@ class BruteForce(Task):
         with open(get_config("bruteforce", "file_location"), "w") as f:
             f.write(content)
 
+
 class Decoder(Task):
     """
     Decoder task for privilege escalation.
@@ -77,11 +81,18 @@ class Decoder(Task):
         with open(get_config("decoder", "file_location"), "r") as f:
             content = f.read()
 
+        flag = self.get_flag()
+        flag_bytes = flag.encode("utf-8")
+
+        base64_bytes = base64.b64encode(flag_bytes)
+        base64_string = base64_bytes.decode("utf-8")
+
         content = content.replace(get_config(
-            "decoder", "placeholder_flag"), self.get_flag())
+            "decoder", "placeholder_flag"), base64_string)
 
         with open(get_config("decoder", "file_location"), "w") as f:
             f.write(content)
+
 
 class Header(Task):
     """
@@ -106,6 +117,7 @@ class Header(Task):
 
         with open(get_config("header", "file_location"), "w") as f:
             f.write(content)
+
 
 def create_lab() -> Lab:
     """
