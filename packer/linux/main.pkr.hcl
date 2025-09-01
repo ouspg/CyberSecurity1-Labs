@@ -96,4 +96,8 @@ build {
     source      = "../../web/"
     destination = "/labs/web"
   }
+  provisioner "file" {
+    source      = "../../burp_suite/"
+    destination = "/labs/burp_suite"
+  }
 }
