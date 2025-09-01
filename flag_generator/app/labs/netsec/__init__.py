@@ -90,7 +90,7 @@ class HTTPHeader(Task):
         content = content.replace(get_config(
             "http_header", "placeholder_flag"), self.get_flag())
 
-        with open(get_config("header", "file_location"), "w") as f:
+        with open(get_config("http_header", "file_location"), "w") as f:
             f.write(content)
 
 
