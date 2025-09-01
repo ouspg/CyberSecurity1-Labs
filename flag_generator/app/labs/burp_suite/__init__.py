@@ -5,6 +5,7 @@ It defines various Burp Suite tasks and groups them into a lab.
 
 
 import base64
+import os
 
 from app.injector import Lab, Task
 from app.utils.config import get_config
@@ -117,6 +118,10 @@ class Header(Task):
 
         with open(get_config("header", "file_location"), "w") as f:
             f.write(content)
+        
+        # build the container again
+        os.system(
+            f"docker compose -f {get_config('app', 'compose_file_location')} up  -d --build")
 
 
 def create_lab() -> Lab:
