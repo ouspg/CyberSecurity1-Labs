@@ -73,6 +73,11 @@ launchDockerCompose() {
     if [ $? -eq 0 ]; then
         echo "${bold}${green}[  OK  ]${reset}   Web Hacking lab is up and running!"
     fi
+
+    docker compose -f /labs/burp_suite/docker-compose.yml up -d &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "${bold}${green}[  OK  ]${reset}   Burp Suite Lab is up and running!"
+    fi
 }
 
 generatAndInjectFlags() {

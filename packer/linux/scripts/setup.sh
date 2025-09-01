@@ -22,7 +22,7 @@ apt-get install docker-ce -y docker-ce-cli containerd.io docker-buildx-plugin do
 # installing python
 apt-get install -y python3 python3-pip python3-venv
 # Setup directories for labs
-mkdir -p /labs/vuln_research /labs/metasploit /labs/priv_esc /labs/web
+mkdir -p /labs/vuln_research /labs/metasploit /labs/priv_esc /labs/web /labs/burp_suite
 
 chown -R ubuntu:ubuntu /labs
 
