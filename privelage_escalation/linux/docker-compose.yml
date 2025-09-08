@@ -4,13 +4,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-system1
-    container_name: system1
+    container_name: privesc_system1
     ports:
       - "2222:22"
+    restart: always
+
   system2:
     build:
       context: .
       dockerfile: Dockerfile-system2
-    container_name: system2
+    container_name: privesc_system2
     ports:
       - "2223:22"
+    restart: always

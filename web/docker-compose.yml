@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     image: juice-shop-test:latest
-    container_name: web
+    container_name: web_juiceshop
     ports:
       - "3000:3000"
     environment:
@@ -21,3 +21,4 @@ services:
       - CTF_KEY=${SECRET}
     volumes:
       - /labs/web/juice-shop-config.yml:/juice-shop/config/juice-shop-config.yml
+    restart: always
