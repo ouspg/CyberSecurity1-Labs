@@ -100,7 +100,8 @@ cleanup() {
     systemctl disable firstboot.service &> /dev/null
 
     # remove the firstboot script
-    $rm "$0"
+    # seems to crash the script with endless loop
+    # $rm "$0"
 
     # remove the flag generator app
     rm -rf usr/lib/python3.12/app
