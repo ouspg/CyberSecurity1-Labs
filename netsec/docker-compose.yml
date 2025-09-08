@@ -23,7 +23,7 @@ services:
       - PASV_MAX_PORT=21010
       - PASV_ADDRESS=127.0.0.1
     volumes:
-      - ./ftp_data:/home/vsftpd/student
+      - ./ftp_data:/home/vsftpd/jessica
     restart: always
 
   udp_service1:
