@@ -130,10 +130,24 @@ setup() {
 
     cleanup
 }
-#unbind the interrupt key
+
+#unbind the interrupt keys
 stty intr undef
+stty susp undef
+
+# mask other ttys
+for i in {1..6}; do
+  sudo systemctl mask getty@tty$i.service
+done
 
 setup
 
 # restore interrupt key
 stty intr ^C
+stty susp ^Z
+
+# umask the ttys
+for i in {1..6}; do
+  sudo systemctl unmask getty@tty$i.service
+  sudo systemctl restart getty@tty$i.service
+done
