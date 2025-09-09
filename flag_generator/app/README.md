@@ -56,6 +56,8 @@ export LOG_LEVEL=INFO
 export SECRET_KEY=<secret_key>
 ```
 
+There is also a config file available not currently being used by the app, but added for futre integration.
+
 ## Requirements
 
 - Python 3.10+
@@ -100,5 +102,11 @@ app/labs/
 
 4. **Configuration (Optional):**  
    If your lab requires specific configuration, add a `config.ini` file in your plugin directory. You can access these settings from your plugin code.
+
+---
+
+**Configuration Disclaimer:**
+
+The app merges all the configurations of the plugin into a single config object. So make sure that there are no two config options in different plugins with the same name else they will be owerwritten with the lattest config option.
 
 For details, you can look at the included lab plugins
