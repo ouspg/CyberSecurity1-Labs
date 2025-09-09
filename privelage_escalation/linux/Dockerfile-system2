@@ -70,7 +70,7 @@ RUN chown admin_anna:usergroup2 /home/jenkins_agent/build.sh && \
 
 RUN echo "Pipeline build failed." > /home/jenkins_agent/build_log.txt && \
     chown jenkins_agent:usergroup2 /home/jenkins_agent/build_log.txt && \
-    chmod 760 /home/jenkins_agent/build_log.txt
+    chmod 660 /home/jenkins_agent/build_log.txt
 
 COPY ./configs/crontab /etc/crontab
 RUN chmod 644 /etc/crontab
