@@ -82,7 +82,8 @@ launchDockerCompose() {
 
 generatAndInjectFlags() {
     # Generates  and injects dynamic flags for the labs
-    source /opt/venv/bin/activate
+    # TODO: remove these logs from firstboot
+    source /opt/venv/bin/activate &> /dev/null
     python3 -m app.main --email $STUDENT_EMAIL
     echo "${bold}${green}[  OK  ]${reset}   Burp Suite Lab is up and running!"
     echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
@@ -104,7 +105,7 @@ cleanup() {
     # $rm "$0"
 
     # remove the flag generator app
-    rm -rf usr/lib/python3.12/app
+    # rm -rf usr/lib/python3.12/app
 
     echo "${bold}${green}[  OK  ]${reset}   Cleanup completed successfully."
     read -p "Press [Enter] to continue..." -r
@@ -136,9 +137,9 @@ stty intr undef
 stty susp undef
 
 # mask other ttys
-for i in {1..6}; do
-  sudo systemctl mask getty@tty$i.service
-done
+# for i in {2..6}; do
+#   sudo systemctl mask autovt@tty$i.service
+# done
 
 setup
 
@@ -147,7 +148,6 @@ stty intr ^C
 stty susp ^Z
 
 # umask the ttys
-for i in {1..6}; do
-  sudo systemctl unmask getty@tty$i.service
-  sudo systemctl restart getty@tty$i.service
-done
+# for i in {2..6}; do
+#   sudo systemctl unmask autovt@tty$i.service
+# done
