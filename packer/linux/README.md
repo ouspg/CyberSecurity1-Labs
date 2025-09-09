@@ -35,8 +35,9 @@ packer/
 
 1. **Packer:**
     Packer is used for building and proviosing the VM's. Can be installed from HashiCorp website
-2. **VMWare Workstation**
+2. **VMWare Workstation:**
     The packer template also utlizes the `vmware` plugin to build and provision the virtual machines, so you also need to have vmware workstation installed aswell.
+3. **OVF Tools:** The ovftools is used by packer to export the VM in ova format   for easy distribution. The tools can be installed from [here](https://developer.broadcom.com/tools/open-virtualization-format-ovf-tool/latest). You may need to add this to PATH, once installed.
 
 ---
 
@@ -61,10 +62,10 @@ packer/
     export SSH_PASSWORD=<some_ssh_password>
     ```
 
-2. **Configure Secret Key:**
+1. **Configure Secret Key:**
     Set the secret key in `scripts/firstboot.sh`. See [Secret Key](#secret-key)
 
-2. **Build the Image:**  
+1. **Build the Image:**  
    Run the following commands from the `packer/linux/` directory:
 
    ```sh
@@ -72,9 +73,9 @@ packer/
    packer build .
    ```
 
-   After proviosiong is done, it will export the image as `packer-{source_name}.ova` under `output-<source_name>.ova` This image can be distrubuted to the students which they can import into their own systems.
+   After proviosiong is done, it will export the image as `packer-{source_name}.ova` under `output-<source_name>.ova` and also create a `.vmx` that can be used to configure the vm in vmware workstation. This image can be distrubuted to the students which they can import into their own systems.
 
-3. **Customization:**  
+1. **Customization:**  
    - Cloud-init files are in `http/`.
    - Custom scripts and systemd services are in `scripts/` and `configs/`.
 
@@ -102,7 +103,7 @@ mkpasswd --method=SHA-512 --rounds=4096 "<my_password>"
 
 ### Secret Key
 
-The `scripts/firstboot.sh` script exports a secret key which is used by the flag generator and OWASP Juice Shop during VM setup to create dynamic flags. You need to provide this key before building the VM with packer. Also refer to [Flag Generation](flag_generator/app/README.md) to learn more.
+The `scripts/firstboot.sh` script exports a secret key which is used by the flag generator and OWASP Juice Shop during VM setup to create dynamic flags. You need to provide this key before building the VM with packer. Also refer to [Flag Generation](../../flag_generator/app/README.md) to learn more.
 
 ---
 

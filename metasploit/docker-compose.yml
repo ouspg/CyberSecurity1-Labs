@@ -2,8 +2,9 @@ version: '2'
 services:
  sshd:
    image: vuln-libssh
-   container_name: metasploit
+   container_name: metasploit_libssh
    build:
     context: .
    ports:
     - "2224:22"
+   restart: always

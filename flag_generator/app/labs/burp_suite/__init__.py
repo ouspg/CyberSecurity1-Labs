@@ -121,7 +121,7 @@ class Header(Task):
         
         # build the container again
         os.system(
-            f"docker compose -f {get_config('app', 'compose_file_location')} up  -d --build")
+            f"docker compose -f {get_config('burp_app', 'compose_file_location')} up  -d --build")
 
 
 def create_lab() -> Lab:

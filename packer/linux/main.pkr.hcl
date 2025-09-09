@@ -100,4 +100,8 @@ build {
     source      = "../../burp_suite/"
     destination = "/labs/burp_suite"
   }
+  provisioner "file" {
+    source      = "../../netsec/"
+    destination = "/labs/netsec"
+  }
 }

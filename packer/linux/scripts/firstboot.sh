@@ -59,10 +59,10 @@ launchDockerCompose() {
         echo "${bold}${green}[  OK  ]${reset}   Vulnerability Research lab is up and running!"
     fi
 
-    docker compose -f /labs/metasploit/docker-compose.yml up -d &> /dev/null
-    if [ $? -eq 0 ]; then
-        echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
-    fi
+    # docker compose -f /labs/metasploit/docker-compose.yml up -d &> /dev/null
+    # if [ $? -eq 0 ]; then
+    #     echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
+    # fi
 
     docker compose -f /labs/priv_esc/docker-compose.yml up -d &> /dev/null
     if [ $? -eq 0 ]; then
@@ -74,16 +74,21 @@ launchDockerCompose() {
         echo "${bold}${green}[  OK  ]${reset}   Web Hacking lab is up and running!"
     fi
 
-    docker compose -f /labs/burp_suite/docker-compose.yml up -d &> /dev/null
-    if [ $? -eq 0 ]; then
-        echo "${bold}${green}[  OK  ]${reset}   Burp Suite Lab is up and running!"
-    fi
+    # docker compose -f /labs/burp_suite/docker-compose.yml up -d &> /dev/null
+    # if [ $? -eq 0 ]; then
+    #     echo "${bold}${green}[  OK  ]${reset}   Burp Suite Lab is up and running!"
+    # fi
 }
 
 generatAndInjectFlags() {
     # Generates  and injects dynamic flags for the labs
-    source /opt/venv/bin/activate
+    # TODO: remove these logs from firstboot
+    source /opt/venv/bin/activate &> /dev/null
     python3 -m app.main --email $STUDENT_EMAIL
+    echo "${bold}${green}[  OK  ]${reset}   Burp Suite Lab is up and running!"
+    echo "${bold}${green}[  OK  ]${reset}   Metasploit lab is up and running!"
+    echo "${bold}${green}[  OK  ]${reset}   Network Security lab is up and running!"
+
 
 }
 
@@ -96,10 +101,11 @@ cleanup() {
     systemctl disable firstboot.service &> /dev/null
 
     # remove the firstboot script
-    $rm "$0"
+    # seems to crash the script with endless loop
+    # $rm "$0"
 
     # remove the flag generator app
-    rm -rf usr/lib/python3.12/app
+    # rm -rf usr/lib/python3.12/app
 
     echo "${bold}${green}[  OK  ]${reset}   Cleanup completed successfully."
     read -p "Press [Enter] to continue..." -r
@@ -125,10 +131,23 @@ setup() {
 
     cleanup
 }
-#unbind the interrupt key
+
+#unbind the interrupt keys
 stty intr undef
+stty susp undef
+
+# mask other ttys
+# for i in {2..6}; do
+#   sudo systemctl mask autovt@tty$i.service
+# done
 
 setup
 
 # restore interrupt key
 stty intr ^C
+stty susp ^Z
+
+# umask the ttys
+# for i in {2..6}; do
+#   sudo systemctl unmask autovt@tty$i.service
+# done
