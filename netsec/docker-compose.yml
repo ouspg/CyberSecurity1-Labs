@@ -45,7 +45,7 @@ services:
   hidden_service:
     image: alpine
     container_name: netsec_hidden
-    command: sh -c "while true; do echo 'FLAG{hidden_high_port_flag}'; sleep 5; done"
+    command: sh -c "apk add --no-cache busybox-extras && while true; do echo 'Running...' | nc -lp 10023; done"
     ports:
       - "10023:10023"
     restart: always
