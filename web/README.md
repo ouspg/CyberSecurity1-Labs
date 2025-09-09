@@ -14,16 +14,16 @@ For the compose file, it is suggested not to update the environnment variables a
 
 To setup this lab you need to have the modified version of the OWASP juice shop as a docker image.
 
-Pull the docker image:
+Pull the docker image from the github container registry:
 
 ```bash
-
+docker pull ghcr.io/ouspg/juice-shop:latest
 ```
 
 Convert it into archive. Make sure it exists under the `web` directory:
 
-```
-docker image save <>:<>
+```bash
+docker image save ghcr.io/ouspg/juice-shop:latest -o juice-shop.tar
 ```
 
 ## Modified OWASP Juice Shop
