@@ -49,6 +49,7 @@ RUN useradd -m -s /bin/bash jenkins_agent && \
     echo "jenkins_agent:superstr0n3P7ssW04d" | chpasswd && \
     usermod -aG usergroup1 jenkins_agent && \
     usermod -aG usergroup2 jenkins_agent && \
+    chgrp usergroup2 /home/jenkins_agent && \
     chmod 771 /home/jenkins_agent
 
 RUN useradd -m -s /bin/bash admin_anna && \
@@ -69,7 +70,7 @@ RUN chown admin_anna:usergroup2 /home/jenkins_agent/build.sh && \
 
 RUN echo "Pipeline build failed." > /home/jenkins_agent/build_log.txt && \
     chown jenkins_agent:usergroup2 /home/jenkins_agent/build_log.txt && \
-    chmod 640 /home/jenkins_agent/build_log.txt
+    chmod 760 /home/jenkins_agent/build_log.txt
 
 COPY ./configs/crontab /etc/crontab
 RUN chmod 644 /etc/crontab
